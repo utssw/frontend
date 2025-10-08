@@ -1,0 +1,975 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Events • UTS SW 2025</title>
+
+  <!-- Tailwind (for simple utilities) -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- Inter font -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet"/>
+
+  <style>
+    /* ========== Root & Base ========== */
+    :root {
+      --primary-gradient: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
+      --accent-gradient: linear-gradient(135deg, #0ea5e9 0%, #0284c7 100%);
+      --dark-gradient: linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #334155 100%);
+      --glass-bg: rgba(255, 255, 255, 0.08);
+      --glass-border: rgba(255, 255, 255, 0.15);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--dark-gradient);
+      color: white;
+      overflow-x: hidden;
+      line-height: 1.6;
+    }
+
+    /* ========== Subtle Grid Background ========== */
+    .grid-bg {
+      position: fixed;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px);
+      background-size: 50px 50px;
+      z-index: -2;
+      animation: gridMove 20s linear infinite;
+    }
+    @keyframes gridMove { 0% { transform: translate(0,0); } 100% { transform: translate(50px,50px); } }
+
+    /* ========== Floating Orbs ========== */
+    .orb {
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(40px);
+      animation: float 8s ease-in-out infinite;
+      z-index: -1;
+    }
+    .orb-1 { width: 300px; height: 300px; background: linear-gradient(135deg, #2563eb30, #1d4ed830); top: 10%; left: 5%; }
+    .orb-2 { width: 400px; height: 400px; background: linear-gradient(135deg, #0ea5e920, #0284c720); top: 60%; right: 10%; }
+    .orb-3 { width: 200px; height: 200px; background: linear-gradient(135deg, #3b82f630, #1e40af30); bottom: 20%; left: 15%; }
+    @keyframes float { 0%,100% { transform: translateY(0) scale(1);} 50% { transform: translateY(-30px) scale(1.1);} }
+
+    /* ========== Powered By (Shimmer Bar) ========== */
+    .powered-by-bar {
+      height: 40px;
+      background: linear-gradient(90deg, #2563eb, #0ea5e9, #2563eb);
+      background-size: 200% 100%;
+      animation: shimmer 3s ease-in-out infinite;
+    }
+    @keyframes shimmer { 0% { background-position: -200% 0; } 100% { background-position: 200% 0; } }
+
+    /* ========== Navbar ========== */
+    .navbar {
+      position: fixed;
+      top: 40px;
+      left: 0; right: 0;
+      z-index: 1000;
+      padding: 20px 40px;
+      background: rgba(15, 23, 42, 0.8);
+      backdrop-filter: blur(20px);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    .nav-container {
+      max-width: 1400px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: relative;
+    }
+    .logo {
+      font-size: 1.5rem;
+      font-weight: 800;
+      background: var(--accent-gradient);
+      background-clip: text;
+      -webkit-background-clip: text;
+      color: transparent;
+      -webkit-text-fill-color: transparent;
+      position: relative;
+      z-index: 1002;
+    }
+    .nav-links {
+      display: flex;
+      gap: 40px;
+      list-style: none;
+    }
+    .nav-link {
+      color: rgba(255, 255, 255, 0.8);
+      text-decoration: none;
+      font-weight: 500;
+      transition: color 0.3s ease;
+      position: relative;
+    }
+    .nav-link:hover { color: white; }
+    .nav-link::after {
+      content: '';
+      position: absolute;
+      bottom: -5px; left: 0;
+      width: 0; height: 2px;
+      background: var(--accent-gradient);
+      transition: width 0.3s ease;
+    }
+    .nav-link:hover::after { width: 100%; }
+
+    .nav-cta {
+      padding: 12px 30px;
+      background: var(--accent-gradient);
+      border: none;
+      border-radius: 25px;
+      color: white;
+      font-weight: 600;
+      text-decoration: none;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      box-shadow: 0 10px 30px rgba(14, 165, 233, 0.3);
+    }
+    .nav-cta:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 15px 40px rgba(14, 165, 233, 0.4);
+    }
+
+    /* Mobile: show hamburger, hide links/cta */
+    @media (max-width: 768px) {
+      .nav-links, .nav-cta { display: none; }
+    }
+
+    /* ========== Mobile Menu ========== */
+    .mobile-menu-toggle {
+      display: none;
+      flex-direction: column;
+      cursor: pointer;
+      z-index: 1002;
+      position: relative;
+      padding: 5px;
+    }
+    .hamburger-line {
+      width: 25px; height: 3px;
+      background: white;
+      margin: 3px 0;
+      transition: 0.3s;
+      border-radius: 2px;
+    }
+    .mobile-menu-toggle.active .hamburger-line:nth-child(1) {
+      transform: rotate(-45deg) translate(-5px, 6px);
+    }
+    .mobile-menu-toggle.active .hamburger-line:nth-child(2) { opacity: 0; }
+    .mobile-menu-toggle.active .hamburger-line:nth-child(3) {
+      transform: rotate(45deg) translate(-5px, -6px);
+    }
+
+    .mobile-nav {
+      position: fixed;
+      inset: 0;
+      background: rgba(15,23,42,0.95);
+      backdrop-filter: blur(20px);
+      z-index: 1001;
+      padding-top: 120px;
+      opacity: 0;
+      visibility: hidden;
+      transform: translateY(-100%);
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .mobile-nav.active {
+      opacity: 1;
+      visibility: visible;
+      transform: translateY(0);
+    }
+    .mobile-nav-close {
+      position: absolute;
+      top: 60px; right: 20px;
+      background: none; border: none;
+      color: white; font-size: 2rem;
+      cursor: pointer; padding: 10px;
+      border-radius: 50%; width: 50px; height: 50px;
+      display: flex; align-items: center; justify-content: center;
+      transition: all 0.3s ease; z-index: 1002;
+    }
+    .mobile-nav-close:hover { background: rgba(255,255,255,0.1); transform: rotate(90deg); }
+
+    .mobile-nav-links {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 30px;
+      list-style: none;
+      padding: 0 20px;
+    }
+    .mobile-nav-links li {
+      opacity: 0;
+      transform: translateY(-30px);
+      transition: all 0.4s ease;
+    }
+
+    /* ========== Header / Hero ========== */
+    .header {
+      min-height: 70vh;
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 200px 20px 0 20px;
+    }
+    .main-content { max-width: 1200px; text-align: center; position: relative; z-index: 10; }
+
+    .event-badge {
+      display: inline-block;
+      padding: 8px 20px;
+      background: var(--glass-bg);
+      backdrop-filter: blur(20px);
+      border: 1px solid var(--glass-border);
+      border-radius: 20px;
+      font-size: 0.9rem;
+      font-weight: 500;
+      margin-bottom: 30px;
+      color: rgba(255,255,255,0.9);
+      animation: slideDown 1s ease-out;
+    }
+
+    .hero-title {
+      font-size: clamp(2.5rem, 7vw, 6rem);
+      font-weight: 900;
+      line-height: 0.9;
+      margin-bottom: 30px;
+      background: linear-gradient(135deg, #ffffff 0%, #2563eb 50%, #0ea5e9 100%);
+      background-clip: text;
+      -webkit-background-clip: text;
+      color: transparent;
+      -webkit-text-fill-color: transparent;
+      animation: slideUp 1s ease-out 0.2s both;
+    }
+    .hero-subtitle {
+      font-size: clamp(1.2rem, 3vw, 2rem);
+      font-weight: 300;
+      margin-bottom: 20px;
+      color: rgba(255,255,255,0.8);
+      animation: slideUp 1s ease-out 0.4s both;
+    }
+    .hero-date {
+      font-size: 1.3rem;
+      font-weight: 600;
+      color: #0ea5e9;
+      margin-bottom: 40px;
+      animation: slideUp 1s ease-out 0.6s both;
+    }
+    .hero-buttons {
+        animation: slideUp 1s ease-out 0.8s both;
+    }
+
+    .btn {
+      padding: 16px 40px;
+      border-radius: 50px;
+      font-weight: 600;
+      text-decoration: none;
+      transition: all 0.3s ease;
+      font-size: 1rem;
+      position: relative;
+      overflow: hidden;
+    }
+    .btn-primary {
+      background: var(--accent-gradient);
+      color: white;
+      box-shadow: 0 15px 35px rgba(14, 165, 233, 0.3);
+    }
+    .btn-primary:hover { transform: translateY(-3px); box-shadow: 0 20px 45px rgba(14,165,233,0.4); }
+
+    .btn-secondary {
+      background: var(--glass-bg);
+      backdrop-filter: blur(20px);
+      border: 1px solid var(--glass-border);
+      color: white;
+    }
+    .btn-secondary:hover { background: rgba(255,255,255,0.2); transform: translateY(-3px); }
+
+    /* ========== Content Sections ========== */
+    .content-section {
+      padding: 80px 20px;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .section-title {
+      font-size: 2.5rem;
+      font-weight: 700;
+      margin-bottom: 60px;
+      text-align: center;
+      background: linear-gradient(135deg, #ffffff 0%, #2563eb 100%);
+      background-clip: text;
+      -webkit-background-clip: text;
+      color: transparent;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .glass-card {
+      background: var(--glass-bg);
+      backdrop-filter: blur(20px);
+      border: 1px solid var(--glass-border);
+      border-radius: 20px;
+      padding: 40px;
+      margin-bottom: 40px;
+      transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .glass-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: -100%;
+      width: 100%; height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent);
+      transition: left 0.5s ease;
+    }
+    .glass-card:hover::before { left: 100%; }
+    .glass-card:hover { transform: translateY(-5px); border-color: rgba(255,255,255,0.3); }
+
+    .card-title {
+      font-size: 1.5rem;
+      font-weight: 600;
+      margin-bottom: 20px;
+      color: white;
+    }
+
+    .card-content {
+      color: rgba(255,255,255,0.8);
+      line-height: 1.6;
+    }
+
+    /* Schedule table */
+    .schedule-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 20px 0;
+    }
+
+    .schedule-table th,
+    .schedule-table td {
+      padding: 15px;
+      text-align: left;
+      border-bottom: 1px solid rgba(255,255,255,0.1);
+    }
+
+    .schedule-table th {
+      color: #0ea5e9;
+      font-weight: 600;
+    }
+
+    .time-slot {
+      font-weight: 600;
+      color: rgba(255,255,255,0.9);
+    }
+
+    .placeholder-content {
+      background: rgba(255,255,255,0.05);
+      border-radius: 12px;
+      padding: 30px;
+      text-align: center;
+      margin: 30px 0;
+    }
+
+    .placeholder-text {
+      color: rgba(255,255,255,0.7);
+      font-style: italic;
+    }
+
+    /* ========== Animations ========== */
+    @keyframes slideUp { from { opacity: 0; transform: translateY(50px); } to { opacity: 1; transform: translateY(0); } }
+    @keyframes slideDown { from { opacity: 0; transform: translateY(-30px); } to { opacity: 1; transform: translateY(0); } }
+
+    /* ========== Responsive ========== */
+    @media (max-width: 768px) {
+      .navbar { padding: 15px 20px; top: 35px; }
+      .header { padding: 125px 20px 0 20px; }
+
+      .mobile-menu-toggle { display: flex; }
+
+      .schedule-table {
+        display: block;
+        overflow-x: auto;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .logo { font-size: 1.3rem; }
+      .navbar { padding: 12px 15px; }
+      .glass-card { padding: 25px; }
+    }
+
+    /* ==== THEMED FOOTER ==== */
+    .site-footer{
+      background: var(--dark-gradient);
+      color: rgba(255,255,255,0.9);
+      padding: 64px 40px 32px;
+      position: relative;
+      border-top: 0px solid var(--glass-border);
+    }
+
+    .site-footer::before{
+      content:"";
+      position:absolute; inset:0;
+      background:
+        radial-gradient(900px 300px at 6% 0%, rgba(14,165,233,.08), transparent 60%),
+        radial-gradient(900px 300px at 94% 100%, rgba(37,99,235,.08), transparent 60%);
+      pointer-events:none;
+    }
+    .site-footer::after{
+      content:""; position:absolute; top:0; left:0; right:0; height:3px;
+      background: var(--accent-gradient);
+    }
+
+    .footer-container{
+      max-width:1400px; margin:0 auto;
+      display:grid; grid-template-columns:2fr 1fr 1fr;
+      gap:48px; align-items:start;
+    }
+
+    .footer-logo{
+      margin:0 0 20px;
+      font-size:clamp(2rem,4.5vw,3.25rem);
+      font-weight:900;
+      background: var(--accent-gradient);
+      -webkit-background-clip:text; background-clip:text;
+      color:transparent; -webkit-text-fill-color:transparent;
+    }
+
+    .footer-social{ display:flex; gap:28px; margin:16px 0 24px; }
+    .footer-social a img{
+      width:22px; height:22px; filter:brightness(0) invert(1);
+      opacity:.9; transition:opacity .2s, transform .2s;
+    }
+    .footer-social a:hover img{ opacity:1; transform:translateY(-2px); }
+
+    .footer-desc{ max-width:720px; line-height:1.75; color:rgba(255,255,255,.8); }
+
+    .footer-title{
+      color: rgba(255,255,255,.75);
+      text-transform: uppercase; letter-spacing: 1px;
+      font-weight: 700; margin:0 0 16px; font-size:1.1rem;
+    }
+
+    .footer-list{ list-style:none; margin:0; padding:0; }
+    .footer-list li{ margin:8px 0; }
+
+    .footer-link{
+      color:#fff; text-decoration: underline;
+      text-underline-offset: 3px;
+      text-decoration-color: rgba(14,165,233,.5);
+      transition: text-decoration-color .2s;
+    }
+    .footer-link:hover{ text-decoration-color: #0ea5e9; }
+
+    .footer-bottom{
+      border-top:1px solid var(--glass-border);
+      margin-top:32px; padding-top:20px;
+      color:rgba(255,255,255,.65);
+    }
+
+    @media (max-width:1024px){ .footer-container{ grid-template-columns:1fr 1fr; } }
+    @media (max-width:640px){ .footer-container{ grid-template-columns:1fr; } }
+
+    /* Event Tabs */
+    .event-tabs {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 15px;
+      margin-bottom: 40px;
+    }
+
+    .event-tab {
+      padding: 12px 25px;
+      background: var(--glass-bg);
+      backdrop-filter: blur(20px);
+      border: 1px solid var(--glass-border);
+      border-radius: 25px;
+      color: rgba(255,255,255,0.8);
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .event-tab:hover {
+      background: rgba(255,255,255,0.1);
+      transform: translateY(-2px);
+    }
+
+    .event-tab.active {
+      background: var(--accent-gradient);
+      color: white;
+      box-shadow: 0 10px 30px rgba(14, 165, 233, 0.3);
+    }
+
+    .event-content {
+      display: none;
+    }
+
+    .event-content.active {
+      display: block;
+      animation: slideUp 0.5s ease-out;
+    }
+
+    /* Event-specific badges */
+    .event-badge-foundations {
+      background: linear-gradient(135deg, #2563eb30, #1d4ed830);
+      border-color: rgba(37, 99, 235, 0.3);
+    }
+
+    .event-badge-hackathon {
+      background: linear-gradient(135deg, #0ea5e920, #0284c720);
+      border-color: rgba(14, 165, 233, 0.3);
+    }
+
+    .event-badge-practice {
+      background: linear-gradient(135deg, #3b82f630, #1e40af30);
+      border-color: rgba(59, 130, 246, 0.3);
+    }
+
+    .event-badge-awards {
+      background: linear-gradient(135deg, #8b5cf630, #7c3aed30);
+      border-color: rgba(139, 92, 246, 0.3);
+    }
+
+  </style>
+</head>
+
+<body>
+  <!-- Background layers -->
+  <div class="grid-bg"></div>
+  <div class="orb orb-1"></div>
+  <div class="orb orb-2"></div>
+  <div class="orb orb-3"></div>
+
+  <!-- Powered by (shimmer) -->
+  <div class="powered-by-bar fixed top-0 left-0 right-0 text-center py-2 text-[0.85rem] font-medium tracking-wide z-[1001]">
+    Powered by University of Technology Sydney
+  </div>
+
+  <!-- Navigation -->
+  <nav class="navbar">
+    <div class="nav-container">
+      <div class="logo">UTS SW</div>
+
+      <ul class="nav-links">
+        <li><a href="index.html" class="nav-link">Home</a></li>
+        <li><a href="index.html#speakers" class="nav-link">Speakers</a></li>
+        <li><a href="index.html#schedule-section" class="nav-link">Events</a></li>
+        <li><a href="index.html#sponsors-page" class="nav-link">Sponsors</a></li>
+        <li><a href="contact-us.html" class="nav-link">Contact Us</a></li>
+        <li><a href="organisers.html" class="nav-link">Organisers</a></li>
+      </ul>
+
+      <a href="https://events.humanitix.com/software-engineering-conference-2025" class="nav-cta">Register Now</a>
+
+      <!-- Hamburger -->
+      <div class="mobile-menu-toggle" onclick="toggleMobileMenu()">
+        <div class="hamburger-line"></div>
+        <div class="hamburger-line"></div>
+        <div class="hamburger-line"></div>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Mobile Nav -->
+  <div class="mobile-nav" id="mobileNav">
+    <button class="mobile-nav-close" onclick="closeMobileMenu()">×</button>
+    <ul class="mobile-nav-links">
+      <li><a href="index.html" class="nav-link" onclick="closeMobileMenu()">Home</a></li>
+      <li><a href="index.html#speakers" class="nav-link" onclick="closeMobileMenu()">Speakers</a></li>
+      <li><a href="index.html#schedule-section" class="nav-link" onclick="closeMobileMenu()">Events</a></li>
+      <li><a href="index.html#sponsors-page" class="nav-link" onclick="closeMobileMenu()">Sponsors</a></li>
+      <li><a href="contact-us.html" class="nav-link" onclick="closeMobileMenu()">Contact Us</a></li>
+      <li><a href="organisers.html" class="nav-link" onclick="closeMobileMenu()">Organisers</a></li>
+      <li><a href="https://events.humanitix.com/software-engineering-conference-2025" class="nav-cta" onclick="closeMobileMenu()">Register Now</a></li>
+    </ul>
+  </div>
+
+  <!-- Header / Hero -->
+  <header class="header">
+    <div class="main-content">
+      <div class="event-badge">🎉 All Events Overview</div>
+
+      <h1 class="hero-title">UTS Software Week Events</h1>
+
+      <p class="hero-subtitle">Explore all events happening during UTS Software Week 2025</p>
+
+      <div class="hero-date">November 24–28, 2025 @ UTS Ultimo</div>
+
+      <div class="hero-buttons flex flex-wrap justify-center gap-5 mb-16">
+        <a href="#events" class="btn btn-primary">View All Events</a>
+        <a href="index.html" class="btn btn-secondary">Back to Main Event</a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <main id="events">
+    <!-- Event Tabs -->
+    <section class="content-section">
+      <h2 class="section-title">Event Schedule</h2>
+      
+      <div class="event-tabs">
+        <div class="event-tab active" data-tab="foundations">Foundations & Frontiers</div>
+        <div class="event-tab" data-tab="hackathon">Hackathon</div>
+        <div class="event-tab" data-tab="practice">Practice & Education</div>
+        <div class="event-tab" data-tab="awards">Awards & Community</div>
+      </div>
+
+      <!-- Foundations & Frontiers -->
+      <div class="event-content active" id="foundations-content">
+        <div class="glass-card">
+          <div class="event-badge event-badge-foundations">🧊 Day 1 - Foundations & Frontiers</div>
+          <h3 class="card-title">Software Engineering as a Discipline in the Age of Agentic AI</h3>
+          <p class="card-content">Day 1 focuses on establishing the foundational principles of software engineering while exploring how these principles must evolve in response to the emergence of agentic AI systems. We'll examine both the theoretical underpinnings and practical applications of software engineering in this new paradigm.</p>
+          
+          <h4 class="card-title" style="margin-top: 30px;">Day 1 Schedule</h4>
+          <table class="schedule-table">
+            <thead>
+              <tr>
+                <th>Time</th>
+                <th>Session</th>
+                <th>Location</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="time-slot">9:00 - 9:30 AM</td>
+                <td>Registration & Welcome Coffee</td>
+                <td>Building 11, Level 5</td>
+              </tr>
+              <tr>
+                <td class="time-slot">9:30 - 10:30 AM</td>
+                <td>Opening Keynote: The Future of Software Engineering</td>
+                <td>Main Auditorium</td>
+              </tr>
+              <tr>
+                <td class="time-slot">10:30 - 12:00 PM</td>
+                <td>Educational Track by Industry (Tutorials)</td>
+                <td>Rooms 11.05.301-305</td>
+              </tr>
+              <tr>
+                <td class="time-slot">12:00 - 1:00 PM</td>
+                <td>Lunch & Networking</td>
+                <td>Building 11, Level 3 Atrium</td>
+              </tr>
+              <tr>
+                <td class="time-slot">1:00 - 2:30 PM</td>
+                <td>Supermarket Part 1 (Studio's Project)</td>
+                <td>Building 11, Level 4</td>
+              </tr>
+              <tr>
+                <td class="time-slot">2:30 - 4:00 PM</td>
+                <td>Research Track</td>
+                <td>Rooms 11.05.401-405</td>
+              </tr>
+              <tr>
+                <td class="time-slot">4:00 - 5:30 PM</td>
+                <td>Poster & Research Showcase</td>
+                <td>Building 11, Level 3 Atrium</td>
+              </tr>
+              <tr>
+                <td class="time-slot">5:30 - 6:30 PM</td>
+                <td>Panel Discussion: AI's Impact on Software Engineering</td>
+                <td>Main Auditorium</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Hackathon -->
+      <div class="event-content" id="hackathon-content">
+        <div class="glass-card">
+          <div class="event-badge event-badge-hackathon">⚡ Hackathon</div>
+          <h3 class="card-title">Innovate, Collaborate, and Build the Future</h3>
+          <p class="card-content">Join us for an exciting hackathon where creativity meets technology. Work in teams to solve real-world challenges, learn new skills, and showcase your innovative solutions to industry experts.</p>
+          
+          <h4 class="card-title" style="margin-top: 30px;">Hackathon Schedule (Day 1-3)</h4>
+          <table class="schedule-table">
+            <thead>
+              <tr>
+                <th>Time</th>
+                <th>Session</th>
+                <th>Location</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="time-slot">8:00 - 9:00 AM</td>
+                <td>Registration & Team Formation</td>
+                <td>Building 11, Level 5</td>
+              </tr>
+              <tr>
+                <td class="time-slot">9:00 - 9:30 AM</td>
+                <td>Opening Ceremony & Challenge Announcement</td>
+                <td>Main Auditorium</td>
+              </tr>
+              <tr>
+                <td class="time-slot">9:30 AM - 12:00 PM</td>
+                <td>Hacking Session 1</td>
+                <td>Building 11, Level 4</td>
+              </tr>
+              <tr>
+                <td class="time-slot">12:00 - 1:00 PM</td>
+                <td>Lunch & Networking</td>
+                <td>Building 11, Level 3 Atrium</td>
+              </tr>
+              <tr>
+                <td class="time-slot">1:00 - 5:00 PM</td>
+                <td>Hacking Session 2</td>
+                <td>Building 11, Level 4</td>
+              </tr>
+              <tr>
+                <td class="time-slot">5:00 - 6:00 PM</td>
+                <td>Project Submission & Judging</td>
+                <td>Building 11, Level 4</td>
+              </tr>
+              <tr>
+                <td class="time-slot">6:00 - 7:00 PM</td>
+                <td>Awards Ceremony & Closing</td>
+                <td>Main Auditorium</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Practice & Education -->
+      <div class="event-content" id="practice-content">
+        <div class="glass-card">
+          <div class="event-badge event-badge-practice">🎓 Day 2 - Practice and Education</div>
+          <h3 class="card-title">Bridging Academic Learning and Industry Practice</h3>
+          <p class="card-content">Day 2 focuses on the practical application of software engineering principles in real-world scenarios. We'll explore how academic knowledge translates to industry practice through hands-on workshops, showcases, and collaborative sessions.</p>
+          
+          <h4 class="card-title" style="margin-top: 30px;">Day 2 Schedule</h4>
+          <table class="schedule-table">
+            <thead>
+              <tr>
+                <th>Time</th>
+                <th>Session</th>
+                <th>Location</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="time-slot">9:00 - 9:30 AM</td>
+                <td>Registration & Welcome Coffee</td>
+                <td>Building 11, Level 5</td>
+              </tr>
+              <tr>
+                <td class="time-slot">9:30 - 10:30 AM</td>
+                <td>Opening Keynote: Industry-Academia Collaboration</td>
+                <td>Main Auditorium</td>
+              </tr>
+              <tr>
+                <td class="time-slot">10:30 - 12:00 PM</td>
+                <td>Educational Track by Industry (Tutorials)</td>
+                <td>Rooms 11.05.301-305</td>
+              </tr>
+              <tr>
+                <td class="time-slot">12:00 - 1:00 PM</td>
+                <td>Lunch & Networking</td>
+                <td>Building 11, Level 3 Atrium</td>
+              </tr>
+              <tr>
+                <td class="time-slot">1:00 - 2:30 PM</td>
+                <td>Supermarket Part 2 (Studio's Project)</td>
+                <td>Building 11, Level 4</td>
+              </tr>
+              <tr>
+                <td class="time-slot">2:30 - 4:00 PM</td>
+                <td>Research Track</td>
+                <td>Rooms 11.05.401-405</td>
+              </tr>
+              <tr>
+                <td class="time-slot">4:00 - 5:30 PM</td>
+                <td>Poster & Research Showcase</td>
+                <td>Building 11, Level 3 Atrium</td>
+              </tr>
+              <tr>
+                <td class="time-slot">5:30 - 6:30 PM</td>
+                <td>Panel Discussion: Bridging the Gap</td>
+                <td>Main Auditorium</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Awards & Community -->
+      <div class="event-content" id="awards-content">
+        <div class="glass-card">
+          <div class="event-badge event-badge-awards">🏆 Day 3 - Awards and Community</div>
+          <h3 class="card-title">Celebrating Excellence and Building Connections</h3>
+          <p class="card-content">Day 3 is dedicated to recognizing outstanding achievements and fostering community connections. Join us for award ceremonies, networking opportunities, and celebrations of innovation in software engineering.</p>
+          
+          <h4 class="card-title" style="margin-top: 30px;">Day 3 Schedule</h4>
+          <table class="schedule-table">
+            <thead>
+              <tr>
+                <th>Time</th>
+                <th>Session</th>
+                <th>Location</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="time-slot">9:00 - 10:00 AM</td>
+                <td>Registration & Networking Breakfast</td>
+                <td>Building 11, Level 3 Atrium</td>
+              </tr>
+              <tr>
+                <td class="time-slot">10:00 - 11:30 AM</td>
+                <td>Industry Showcase & Demos</td>
+                <td>Building 11, Level 4</td>
+              </tr>
+              <tr>
+                <td class="time-slot">11:30 AM - 12:30 PM</td>
+                <td>Keynote: The Future of Software Engineering Careers</td>
+                <td>Main Auditorium</td>
+              </tr>
+              <tr>
+                <td class="time-slot">12:30 - 1:30 PM</td>
+                <td>Lunch & Networking</td>
+                <td>Building 11, Level 3 Atrium</td>
+              </tr>
+              <tr>
+                <td class="time-slot">1:30 - 3:00 PM</td>
+                <td>Student Project Showcase</td>
+                <td>Building 11, Level 4</td>
+              </tr>
+              <tr>
+                <td class="time-slot">3:00 - 4:30 PM</td>
+                <td>Awards Ceremony</td>
+                <td>Main Auditorium</td>
+              </tr>
+              <tr>
+                <td class="time-slot">4:30 - 6:00 PM</td>
+                <td>Closing Reception & Networking</td>
+                <td>Building 11, Level 3 Atrium</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- Registration Section -->
+    <section class="content-section">
+      <div class="glass-card text-center">
+        <h2 class="section-title">Ready to Join Us?</h2>
+        <p class="card-content mb-8">Don't miss this opportunity to be part of UTS Software Week 2025. Register now to secure your spot at all events!</p>
+        <a href="https://events.humanitix.com/software-engineering-conference-2025" class="btn btn-primary">Register Now</a>
+      </div>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <footer class="site-footer">
+    <div class="footer-container">
+      <div>
+        <h3 class="footer-logo">UTS SW</h3>
+        <div class="footer-social">
+          <a href="#"><img src="https://cdn-icons-png.flaticon.com/512/124/124010.png" alt="Facebook"></a>
+          <a href="#"><img src="https://cdn-icons-png.flaticon.com/512/124/124021.png" alt="Twitter"></a>
+          <a href="#"><img src="https://cdn-icons-png.flaticon.com/512/174/174857.png" alt="LinkedIn"></a>
+          <a href="#"><img src="https://cdn-icons-png.flaticon.com/512/2111/2111463.png" alt="Instagram"></a>
+        </div>
+        <p class="footer-desc">UTS Software Week brings together students, academics, and industry professionals to explore the latest trends and innovations in software engineering.</p>
+      </div>
+
+      <div>
+        <h4 class="footer-title">Quick Links</h4>
+        <ul class="footer-list">
+          <li><a href="index.html" class="footer-link">Home</a></li>
+          <li><a href="index.html#speakers" class="footer-link">Speakers</a></li>
+          <li><a href="index.html#schedule-section" class="footer-link">Events</a></li>
+          <li><a href="index.html#sponsors-page" class="footer-link">Sponsors</a></li>
+        </ul>
+      </div>
+
+      <div>
+        <h4 class="footer-title">Contact</h4>
+        <ul class="footer-list">
+          <li><a href="contact-us.html" class="footer-link">Contact Us</a></li>
+          <li><a href="organisers.html" class="footer-link">Organisers</a></li>
+          <li><a href="#" class="footer-link">Privacy Policy</a></li>
+          <li><a href="#" class="footer-link">Terms of Service</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      <p>&copy; 2025 UTS Software Week. All rights reserved.</p>
+    </div>
+  </footer>
+
+  <script>
+    // Mobile menu functionality
+    function toggleMobileMenu() {
+      const mobileNav = document.getElementById('mobileNav');
+      const toggleBtn = document.querySelector('.mobile-menu-toggle');
+      
+      mobileNav.classList.toggle('active');
+      toggleBtn.classList.toggle('active');
+      
+      // Animate menu items
+      const menuItems = document.querySelectorAll('.mobile-nav-links li');
+      if (mobileNav.classList.contains('active')) {
+        menuItems.forEach((item, index) => {
+          setTimeout(() => {
+            item.style.opacity = '1';
+            item.style.transform = 'translateY(0)';
+          }, 100 + (index * 100));
+        });
+      } else {
+        menuItems.forEach(item => {
+          item.style.opacity = '0';
+          item.style.transform = 'translateY(-30px)';
+        });
+      }
+    }
+
+    function closeMobileMenu() {
+      const mobileNav = document.getElementById('mobileNav');
+      const toggleBtn = document.querySelector('.mobile-menu-toggle');
+      
+      mobileNav.classList.remove('active');
+      toggleBtn.classList.remove('active');
+      
+      // Reset menu items
+      const menuItems = document.querySelectorAll('.mobile-nav-links li');
+      menuItems.forEach(item => {
+        item.style.opacity = '0';
+        item.style.transform = 'translateY(-30px)';
+      });
+    }
+
+    // Event tabs functionality
+    document.addEventListener('DOMContentLoaded', function() {
+      const tabs = document.querySelectorAll('.event-tab');
+      const contents = document.querySelectorAll('.event-content');
+      
+      tabs.forEach(tab => {
+        tab.addEventListener('click', () => {
+          // Remove active class from all tabs and contents
+          tabs.forEach(t => t.classList.remove('active'));
+          contents.forEach(c => c.classList.remove('active'));
+          
+          // Add active class to clicked tab and corresponding content
+          tab.classList.add('active');
+          const tabId = tab.getAttribute('data-tab');
+          document.getElementById(`${tabId}-content`).classList.add('active');
+        });
+      });
+    });
+  </script>
+</body>
+</html>

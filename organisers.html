@@ -1,0 +1,568 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Organisers • UTS SW 2025</title>
+
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet"/>
+
+  <style>
+    :root{
+      --primary-gradient: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
+      --accent-gradient:  linear-gradient(135deg, #0ea5e9 0%, #0284c7 100%);
+      --dark-gradient:    linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #334155 100%);
+      --glass-bg: rgba(255,255,255,.08);
+      --glass-border: rgba(255,255,255,.15);
+    }
+    *{box-sizing:border-box}
+    body{
+      font-family:'Inter',sans-serif;
+      background:var(--dark-gradient);
+      color:#fff;
+      overflow-x:hidden;
+      line-height:1.6;
+    }
+
+    /* background */
+    .grid-bg{position:fixed;inset:0;z-index:-2;background-image:
+      linear-gradient(rgba(255,255,255,.03) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255,255,255,.03) 1px, transparent 1px);
+      background-size:50px 50px;animation:gridMove 20s linear infinite}
+    @keyframes gridMove{0%{transform:translate(0,0)}100%{transform:translate(50px,50px)}}
+    .orb{position:absolute;border-radius:50%;filter:blur(40px);animation:float 8s ease-in-out infinite;z-index:-1}
+    .orb-1{width:300px;height:300px;background:linear-gradient(135deg,#2563eb30,#1d4ed830);top:10%;left:5%}
+    .orb-2{width:380px;height:380px;background:linear-gradient(135deg,#0ea5e920,#0284c720);bottom:8%;right:8%}
+    .orb-3{width:220px;height:220px;background:linear-gradient(135deg,#3b82f630,#1e40af30);top:55%;left:20%}
+    @keyframes float{0%,100%{transform:translateY(0) scale(1)}50%{transform:translateY(-30px) scale(1.08)}}
+
+    /* shimmer bar + nav */
+    .powered-by-bar{height:40px;background:linear-gradient(90deg,#2563eb,#0ea5e9,#2563eb);background-size:200% 100%;animation:shimmer 3s ease-in-out infinite}
+    @keyframes shimmer{0%{background-position:-200% 0}100%{background-position:200% 0}}
+    /* ========== Navbar ========== */
+    .navbar {
+      position: fixed;
+      top: 40px;
+      left: 0; right: 0;
+      z-index: 1000;
+      padding: 20px 40px;
+      background: rgba(15, 23, 42, 0.8);
+      backdrop-filter: blur(20px);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    .nav-container {
+      max-width: 1400px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: relative;
+    }
+    .logo {
+      font-size: 1.5rem;
+      font-weight: 800;
+      background: var(--accent-gradient);
+      background-clip: text;
+      -webkit-background-clip: text;          /* fix: ensure visibility on WebKit */
+      color: transparent;
+      -webkit-text-fill-color: transparent;   /* fix: ensure visibility on WebKit */
+      position: relative;
+      z-index: 1002;
+    }
+    .nav-links {
+      display: flex;
+      gap: 40px;
+      list-style: none;
+    }
+    .nav-link {
+      color: rgba(255, 255, 255, 0.8);
+      text-decoration: none;
+      font-weight: 500;
+      transition: color 0.3s ease;
+      position: relative;
+    }
+    .nav-link:hover { color: white; }
+    .nav-link::after {
+      content: '';
+      position: absolute;
+      bottom: -5px; left: 0;
+      width: 0; height: 2px;
+      background: var(--accent-gradient);
+      transition: width 0.3s ease;
+    }
+    .nav-link:hover::after { width: 100%; }
+
+    .nav-cta {
+      padding: 12px 30px;
+      background: var(--accent-gradient);
+      border: none;
+      border-radius: 25px;
+      color: white;
+      font-weight: 600;
+      text-decoration: none;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      box-shadow: 0 10px 30px rgba(14, 165, 233, 0.3);
+    }
+    .nav-cta:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 15px 40px rgba(14, 165, 233, 0.4);
+    }
+
+    /* ========== Mobile Menu ========== */
+    .mobile-menu-toggle {
+      display: none;
+      flex-direction: column;
+      cursor: pointer;
+      z-index: 1002;
+      position: relative;
+      padding: 5px;
+    }
+
+    /* Mobile: show hamburger, hide links/cta */
+    @media (max-width: 768px) {
+      .nav-links, .nav-cta { display: none; }
+      .mobile-menu-toggle { display: flex; }
+    }
+
+    .hamburger-line {
+      width: 25px; height: 3px;
+      background: white;
+      margin: 3px 0;
+      transition: 0.3s;
+      border-radius: 2px;
+    }
+    .mobile-menu-toggle.active .hamburger-line:nth-child(1) {
+      transform: rotate(-45deg) translate(-5px, 6px);
+    }
+    .mobile-menu-toggle.active .hamburger-line:nth-child(2) { opacity: 0; }
+    .mobile-menu-toggle.active .hamburger-line:nth-child(3) {
+      transform: rotate(45deg) translate(-5px, -6px);
+    }
+
+    .mobile-nav {
+      position: fixed;
+      inset: 0;
+      background: rgba(15,23,42,0.95);
+      backdrop-filter: blur(20px);
+      z-index: 1001;
+      padding-top: 120px;
+      opacity: 0;
+      visibility: hidden;
+      transform: translateY(-100%);
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .mobile-nav.active {
+      opacity: 1;
+      visibility: visible;
+      transform: translateY(0);
+    }
+    .mobile-nav-close {
+      position: absolute;
+      top: 60px; right: 20px;
+      background: none; border: none;
+      color: white; font-size: 2rem;
+      cursor: pointer; padding: 10px;
+      border-radius: 50%; width: 50px; height: 50px;
+      display: flex; align-items: center; justify-content: center;
+      transition: all 0.3s ease; z-index: 1002;
+    }
+    .mobile-nav-close:hover { background: rgba(255,255,255,0.1); transform: rotate(90deg); }
+
+    .mobile-nav-links {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 30px;
+      list-style: none;
+      padding: 0 20px;
+    }
+    .mobile-nav-links li {
+      opacity: 0;
+      transform: translateY(-30px);
+      transition: all 0.4s ease;
+    }
+
+    /* header */
+    .header{min-height:55vh;display:flex;align-items:center;justify-content:center;padding:170px 20px 40px}
+    .hero-title{font-size:clamp(2.5rem,6vw,5rem);font-weight:900;margin-bottom:.4rem;background:linear-gradient(135deg,#ffffff 0%,#2563eb 50%,#0ea5e9 100%);-webkit-background-clip:text;background-clip:text;color:transparent;-webkit-text-fill-color:transparent}
+    .lead{max-width:850px;color:rgba(255,255,255,.8)}
+
+    /* organisers list (no outer box) */
+    .org-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:28px}
+    @media(max-width:1200px){.org-grid{grid-template-columns:repeat(3,1fr)}}
+    @media(max-width:900px){.org-grid{grid-template-columns:repeat(2,1fr)}}
+    @media(max-width:560px){.org-grid{grid-template-columns:1fr}}
+
+    .person{display:flex;flex-direction:column;gap:.6rem}
+    .person-name{font-weight:800;font-size:1.1rem;text-align: center;}
+    .img-placeholder{display:flex;align-items:center;justify-content:center;height:220px;border-radius:18px;background:rgba(255,255,255,.08); /* no border */
+      color:rgba(255,255,255,.75);letter-spacing:.12em;box-shadow:0 12px 30px rgba(0,0,0,.25);transition:transform .25s}
+    .img-placeholder:hover{transform:translateY(-4px)}
+
+    /* ==== THEMED FOOTER (matches your site) ==== */
+    .site-footer{
+    background: var(--dark-gradient);
+    color: rgba(255,255,255,0.9);
+    padding: 64px 40px 32px;
+    position: relative;
+    border-top: 0px solid var(--glass-border);
+    }
+
+    /* subtle accent glow + top accent bar */
+    .site-footer::before{
+    content:"";
+    position:absolute; inset:0;
+    background:
+        radial-gradient(900px 300px at 6% 0%, rgba(14,165,233,.08), transparent 60%),
+        radial-gradient(900px 300px at 94% 100%, rgba(37,99,235,.08), transparent 60%);
+    pointer-events:none;
+    }
+    .site-footer::after{
+    content:""; position:absolute; top:0; left:0; right:0; height:3px;
+    background: var(--accent-gradient);
+    }
+
+    /* layout: 3 columns (brand/social, contact, upcoming) */
+    .footer-container{
+    max-width:1400px; margin:0 auto;
+    display:grid; grid-template-columns:2fr 1fr 1fr;
+    gap:48px; align-items:start;
+    }
+
+    /* brand title in your accent gradient */
+    .footer-logo{
+    margin:0 0 20px;
+    font-size:clamp(2rem,4.5vw,3.25rem);
+    font-weight:900;
+    background: var(--accent-gradient);
+    -webkit-background-clip:text; background-clip:text;
+    color:transparent; -webkit-text-fill-color:transparent;
+    }
+
+    .footer-social{ display:flex; gap:28px; margin:16px 0 24px; }
+    .footer-social a img{
+    width:22px; height:22px; filter:brightness(0) invert(1);
+    opacity:.9; transition:opacity .2s, transform .2s;
+    }
+    .footer-social a:hover img{ opacity:1; transform:translateY(-2px); }
+
+    .footer-desc{ max-width:720px; line-height:1.75; color:rgba(255,255,255,.8); }
+
+    .footer-title{
+    color: rgba(255,255,255,.75);
+    text-transform: uppercase; letter-spacing: 1px;
+    font-weight: 700; margin:0 0 16px; font-size:1.1rem;
+    }
+
+    .footer-list{ list-style:none; margin:0; padding:0; }
+    .footer-list li{ margin:8px 0; }
+
+    .footer-link{
+    color:#fff; text-decoration: underline;
+    text-underline-offset: 3px;
+    text-decoration-color: rgba(14,165,233,.5);
+    transition: text-decoration-color .2s;
+    }
+    .footer-link:hover{ text-decoration-color: #0ea5e9; }
+
+    .footer-bottom{
+    border-top:1px solid var(--glass-border);
+    margin-top:32px; padding-top:20px;
+    color:rgba(255,255,255,.65);
+    }
+
+    /* responsive */
+    @media (max-width:1024px){ .footer-container{ grid-template-columns:1fr 1fr; } }
+    @media (max-width:640px){ .footer-container{ grid-template-columns:1fr; } }
+
+    /* Organiser headshots */
+    .person-photo{
+      width: 100%;
+      aspect-ratio: 1 / 1;      /* perfect square */
+      object-fit: cover;        /* crops nicely */
+      border-radius: 18px;      /* same radius as placeholders */
+      box-shadow: 0 12px 30px rgba(0,0,0,.25);
+      border: 1px solid rgba(255,255,255,.12);
+      background: rgba(255,255,255,.06);
+    }
+  </style>
+</head>
+<body>
+  <!-- Background -->
+  <div class="grid-bg"></div>
+  <div class="orb orb-1" aria-hidden="true"></div>
+  <div class="orb orb-2" aria-hidden="true"></div>
+  <div class="orb orb-3" aria-hidden="true"></div>
+
+  <!-- Shimmer -->
+  <div class="powered-by-bar fixed top-0 left-0 right-0 text-center py-2 text-[0.85rem] font-medium tracking-wide z-[1001]">
+    Powered by University of Technology Sydney
+  </div>
+
+  <!-- Navigation -->
+  <nav class="navbar" aria-label="Main">
+    <div class="nav-container">
+      <div class="logo">UTS SW</div>
+      <ul class="nav-links">
+        <li><a href="index.html" class="nav-link">Home</a></li>
+        <li><a href="index.html#speakers" class="nav-link">Speakers</a></li>
+        <li><a href="index.html#schedule-section" class="nav-link">Events</a></li>
+        <li><a href="index.html#sponsors-page" class="nav-link">Sponsors</a></li>
+        <li><a href="contact-us.html" class="nav-link active">Contact Us</a></li>
+        <li><a href="organisers.html" class="nav-link">Organisers</a></li>
+      </ul>
+
+      <a href="https://humanitix.com" class="nav-cta">Register Now</a>
+
+      <div class="mobile-menu-toggle" onclick="toggleMobileMenu()">
+        <div class="hamburger-line"></div>
+        <div class="hamburger-line"></div>
+        <div class="hamburger-line"></div>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Mobile Nav -->
+  <div class="mobile-nav" id="mobileNav">
+    <button class="mobile-nav-close" onclick="closeMobileMenu()">×</button>
+    <ul class="mobile-nav-links">
+      <li><a href="index.html" class="nav-link" onclick="closeMobileMenu()">Home</a></li>
+      <li><a href="index.html#speakers" class="nav-link" onclick="closeMobileMenu()">Speakers</a></li>
+      <li><a href="index.html#schedule-section" class="nav-link" onclick="closeMobileMenu()">Events</a></li>
+      <li><a href="index.html#sponsors-page" class="nav-link" onclick="closeMobileMenu()">Sponsors</a></li>
+      <li><a href="contact-us.html" class="nav-link active" onclick="closeMobileMenu()">Contact Us</a></li>
+      <li><a href="organisers.html" class="nav-link" onclick="closeMobileMenu()">Organisers</a></li>
+      <li><a href="login.html" class="nav-cta" onclick="closeMobileMenu()">Register Now</a></li>
+    </ul>
+  </div>
+
+  <!-- Header -->
+  <header class="header">
+    <div class="text-center max-w-4xl mx-auto px-6">
+      <h1 class="hero-title">Meet the Organisers</h1>
+      <p class="lead mx-auto">
+        UTS Software Week is run by volunteers across multiple committees consisting of organising chairs, 
+        other sub-committee chairs such as media or publicity chairs, partners, student volunteers and many more. 
+        The following team have organised this event and oversee all the scheduled activities involved
+        during the UTS Software Week.
+
+      </p>
+    </div>
+  </header>
+
+  <main class="relative z-10 pb-24 px-6">
+    <div class="max-w-6xl mx-auto space-y-16">
+
+      <!-- General Chair -->
+      <section id="general-chairs">
+        <div class="mb-5">
+          <h2 class="text-2xl md:text-3xl font-extrabold bg-clip-text text-transparent" style="background:var(--accent-gradient);-webkit-background-clip:text;">
+            General Chair
+          </h2>
+        </div>
+        <div class="org-grid">
+          <div class="person">
+            <div class="person-name">Prof. Asif Gill</div>
+            <small class="text-white/70 text-center">University of Technology Sydney</small>
+            <img class="person-photo" src="https://adapt.com.au/wp-content/uploads/2025/07/Asif-Gill-1.png" alt="Asif Gill">
+          </div>
+        </div>
+      </section>
+
+      <!-- Conference Chairs -->
+      <section id="org-chairs">
+        <div class="mb-5">
+          <h2 class="text-2xl md:text-3xl font-extrabold bg-clip-text text-transparent" style="background:var(--accent-gradient);-webkit-background-clip:text;">
+            Organising Chair
+          </h2>
+        </div>
+        <div class="org-grid">
+          <div class="person">
+            <div class="person-name">Dr. Yining Hu</div>
+            <small class="text-white/70 text-center">University of Technology Sydney</small>
+            <img class="person-photo" src="https://cd.tafensw.edu.au/api/-/media/Images/Pages/Specialty-Schools/IAT/Yining.jpg?h=200&iar=0&w=200&rev=d8ed246591bd40de984e63a6bfd709a7&sc_lang=en&hash=D19701D5A594E5A58AA5A36D121DB964" alt="Yining Hu">
+          </div>
+          <div class="person">
+            <div class="person-name">Dr. Avinash Singh</div>
+            <small class="text-white/70 text-center">University of Technology Sydney</small>
+            <img class="person-photo" src="https://profiles.uts.edu.au/Avinash.Singh/thumbnail" alt="Avinash Singh">
+          </div>
+        </div>
+      </section>
+
+      <!-- Advisory -->
+      <section id="advisory">
+        <div class="mb-5">
+          <h2 class="text-2xl md:text-3xl font-extrabold bg-clip-text text-transparent" style="background:var(--accent-gradient);-webkit-background-clip:text;">
+            Advisory Chair
+          </h2>
+        </div>
+        <div class="org-grid">
+          <div class="person">
+            <div class="person-name">Dr. Srinivas Madhisetty</div>
+            <small class="text-white/70 text-center">University of Technology Sydney</small>
+            <img class="person-photo" src="https://profiles.uts.edu.au/Srinivas.Madhisetty/thumbnail" alt="Srinivas">
+          </div>
+          <div class="person">
+            <div class="person-name">Prof. Nabin Sharma</div>
+            <small class="text-white/70 text-center">University of Technology Sydney</small>
+            <img class="person-photo" src="https://profiles.uts.edu.au/Nabin.Sharma/thumbnail" alt="Nabin">
+          </div>
+          <div class="person">
+            <div class="person-name">Dr. Qinghua Lu</div>
+            <small class="text-white/70 text-center">CSIRO</small>
+            <img class="person-photo" src="https://www.csiro.au/-/media/WordPress/Algorithm/QinghuaLu_headshot.jpg?mw=800&hash=B0BD39C700ACE82666C907BDE5ABA02A" alt="Qinghua">
+          </div>
+          <div class="person">
+            <div class="person-name">Prof. Fethi Rabhi</div>
+            <small class="text-white/70 text-center">University of New South Wales Sydney</small>
+            <img class="person-photo" src="https://api.research.unsw.edu.au/sites/default/files/images/profile/_MG_1800_0.jpg" alt="Fethi">
+          </div>
+        </div>
+      </section>
+
+      <!-- Web -->
+      <section id="web-team">
+        <div class="mb-5">
+          <h2 class="text-2xl md:text-3xl font-extrabold bg-clip-text text-transparent" style="background:var(--accent-gradient);-webkit-background-clip:text;">
+            Web-Chair
+          </h2>
+        </div>
+        <div class="org-grid">
+          <div class="person">
+            <div class="person-name">Jonathan Toma</div>
+            <small class="text-white/70 text-center">University of Technology Sydney</small>
+            <img class="person-photo" src="https://i.pinimg.com/736x/90/d1/ac/90d1ac48711f63c6a290238c8382632f.jpg" alt="Adi">
+          </div>
+          <div class="person">
+            <div class="person-name">Adi Patnaik</div>
+            <small class="text-white/70 text-center">University of Technology Sydney</small>
+            <img class="person-photo" src="https://media.licdn.com/dms/image/v2/D4E03AQF9vQiNWT7yRA/profile-displayphoto-crop_800_800/B4EZlGQ_UKIMAI-/0/1757820484065?e=1762992000&v=beta&t=-z6aXTwqUR3vIl2SqUkClh9rwSC-H968Sfj-4B860iU" alt="Adi">
+          </div>
+          <div class="person">
+            <div class="person-name">Muhammad Shaukat</div>
+            <small class="text-white/70 text-center">University of Technology Sydney</small>
+            <img class="person-photo" src="https://media.discordapp.net/attachments/1404640217239130153/1425279052998115449/image.png?ex=68e7020e&is=68e5b08e&hm=90b2ec0e629ecf7c92964f7ed757a8302f41998284b93bc40e1b51980ed2ea02&=&format=webp&quality=lossless" alt="Anas">
+          </div>
+        </div>
+      </section>
+    </div>
+  </main>
+  
+  <footer class="site-footer" role="contentinfo" aria-label="Footer">
+  <div class="footer-container">
+      <!-- Left: brand + blurb -->
+      <section>
+      <h3 class="footer-logo">UTS SW 2025</h3>
+      <p class="footer-desc">
+          UTS Software Week is an event organised by several universities aiming to enable
+          industry involvement in university education. We intend to showcase various projects and the
+          latest research formulated by students in order to bridge the gap between university research
+          and industry needs. This week will provide opportunities to network with major industries to
+          elevate businesses and personal growth.
+      </p>
+      </section>
+
+      <!-- Contact -->
+      <section>
+      <h4 class="footer-title">Contact</h4>
+      <ul class="footer-list">
+          <li>University of Technology Sydney</li>
+          <li>15 Broadway, Ultimo NSW 2007</li>
+          <li>softwareweek.contact@gmail.com</li>
+          <li>+61 (02) 9514 2000</li>
+          <br>
+          <li><a href="contact-us.html" class="nav-cta">Contact Us</a></li>
+      </ul>
+      </section>
+
+        <!-- Upcoming -->
+      <section>
+      <h4 class="footer-title">Upcoming</h4>
+      <strong>UTS SW — Sydney</strong>
+      <ul class="footer-list" style="margin-top:8px;">
+          <li>24–28 Nov 2025</li>
+          <li>
+          <a class="footer-link"
+              target="_blank" rel="noreferrer"
+              href="https://www.google.com/maps/place/University+of+Technology+Sydney/">
+              UTS Ultimo
+          </a>
+          </li>
+      </ul>
+      </section>
+  </div>
+
+  <div class="footer-bottom">
+      © 2025 UTS Software Week — All rights reserved.
+  </div>
+  </footer>
+
+
+  <script>
+
+    /* ========== Mobile Menu ========== */
+    function toggleMobileMenu() {
+      const toggle = document.querySelector('.mobile-menu-toggle');
+      const mobileNav = document.getElementById('mobileNav');
+
+      toggle.classList.toggle('active');
+      mobileNav.classList.toggle('active');
+
+      if (mobileNav.classList.contains('active')) {
+        document.body.style.overflow = 'hidden';
+        // Stagger reveal
+        document.querySelectorAll('.mobile-nav-links li').forEach((li, idx) => {
+          li.style.transitionDelay = (0.1 * (idx + 1)) + 's';
+          li.style.opacity = 1;
+          li.style.transform = 'translateY(0)';
+        });
+      } else {
+        document.body.style.overflow = '';
+        document.querySelectorAll('.mobile-nav-links li').forEach(li => {
+          li.style.transitionDelay = '';
+          li.style.opacity = '';
+          li.style.transform = '';
+        });
+      }
+    }
+
+    function closeMobileMenu() {
+      const toggle = document.querySelector('.mobile-menu-toggle');
+      const mobileNav = document.getElementById('mobileNav');
+
+      toggle.classList.remove('active');
+      mobileNav.classList.remove('active');
+      document.body.style.overflow = '';
+
+      document.querySelectorAll('.mobile-nav-links li').forEach(li => {
+        li.style.transitionDelay = '';
+        li.style.opacity = '';
+        li.style.transform = '';
+      });
+    }
+
+    // Close on resize > 768
+    window.addEventListener('resize', () => {
+      if (window.innerWidth > 768) closeMobileMenu();
+    });
+
+    // Hook close button
+    document.querySelector('.mobile-nav-close')?.addEventListener('click', closeMobileMenu);
+
+    // Parallax for orbs (respects reduced motion)
+    const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (!reduce){
+      window.addEventListener('mousemove', (e)=>{
+        const orbs = document.querySelectorAll('.orb');
+        const x = e.clientX / window.innerWidth, y = e.clientY / window.innerHeight;
+        orbs.forEach((orb,i)=>{
+          const speed = (i+1)*0.02;
+          orb.style.transform = `translate(${(x-.5)*speed*100}px, ${(y-.5)*speed*100}px)`;
+        });
+      });
+    }
+  </script>
+</body>
+</html>

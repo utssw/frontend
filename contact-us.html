@@ -1,0 +1,512 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Contact Us • UTS SW 2025</title>
+
+  <!-- Tailwind for utilities -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Inter font -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet"/>
+
+  <style>
+    :root {
+      --primary-gradient: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
+      --accent-gradient: linear-gradient(135deg, #0ea5e9 0%, #0284c7 100%);
+      --dark-gradient: linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #334155 100%);
+      --glass-bg: rgba(255, 255, 255, 0.08);
+      --glass-border: rgba(255, 255, 255, 0.15);
+    }
+    * { box-sizing: border-box; }
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--dark-gradient);
+      color: white;
+      overflow-x: hidden;
+      line-height: 1.6;
+    }
+
+    /* Subtle grid background */
+    .grid-bg {
+      position: fixed; inset: 0; z-index: -2;
+      background-image:
+        linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px);
+      background-size: 50px 50px;
+      animation: gridMove 20s linear infinite;
+    }
+    @keyframes gridMove { 0% { transform: translate(0,0);} 100% { transform: translate(50px,50px);} }
+
+    /* Floating orbs */
+    .orb { position: absolute; border-radius: 50%; filter: blur(40px); animation: float 8s ease-in-out infinite; z-index: -1; }
+    .orb-1 { width: 300px; height: 300px; background: linear-gradient(135deg, #2563eb30, #1d4ed830); top: 10%; left: 5%; }
+    .orb-2 { width: 380px; height: 380px; background: linear-gradient(135deg, #0ea5e920, #0284c720); bottom: 8%; right: 8%; }
+    .orb-3 { width: 220px; height: 220px; background: linear-gradient(135deg, #3b82f630, #1e40af30); top: 55%; left: 20%; }
+    @keyframes float { 0%,100% { transform: translateY(0) scale(1);} 50% { transform: translateY(-30px) scale(1.08);} }
+
+    /* Powered by (shimmer) */
+    .powered-by-bar { height: 40px; background: linear-gradient(90deg, #2563eb, #0ea5e9, #2563eb); background-size: 200% 100%; animation: shimmer 3s ease-in-out infinite; }
+    @keyframes shimmer { 0% { background-position: -200% 0; } 100% { background-position: 200% 0; } }
+
+    /* Navbar */
+    .navbar { position: fixed; top: 40px; left: 0; right: 0; z-index: 1000; padding: 20px 40px; background: rgba(15,23,42,0.8); backdrop-filter: blur(20px); border-bottom: 1px solid rgba(255,255,255,0.1); }
+    .nav-container { max-width: 1400px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; position: relative; }
+    .logo { font-size: 1.5rem; font-weight: 800; background: var(--accent-gradient); background-clip: text; -webkit-background-clip: text; color: transparent; -webkit-text-fill-color: transparent; position: relative; z-index: 1002; }
+    .nav-links { display: flex; gap: 40px; list-style: none; }
+    .nav-link { color: rgba(255,255,255,0.8); text-decoration: none; font-weight: 500; position: relative; }
+    .nav-link:hover { color: #fff; }
+    .nav-link::after { content: ''; position: absolute; bottom: -5px; left: 0; width: 0; height: 2px; background: var(--accent-gradient); transition: width .3s; }
+    .nav-link:hover::after { width: 100%; }
+    .nav-link.active { color: #fff; }
+    .nav-link.active::after { width: 100%; }
+    .nav-cta { padding: 12px 30px; background: var(--accent-gradient); border-radius: 25px; color: white; font-weight: 600; text-decoration: none; box-shadow: 0 10px 30px rgba(14,165,233,0.3); }
+    .nav-cta:hover { transform: translateY(-2px); box-shadow: 0 15px 40px rgba(14,165,233,0.4); }
+    @media (max-width: 768px){ .nav-links, .nav-cta{ display:none; } }
+    .mobile-menu-toggle { display:none; flex-direction:column; cursor:pointer; z-index:1002; padding:5px; }
+    .hamburger-line{ width:25px; height:3px; background:#fff; margin:3px 0; transition:.3s; border-radius:2px; }
+    .mobile-menu-toggle.active .hamburger-line:nth-child(1){ transform: rotate(-45deg) translate(-5px,6px);} .mobile-menu-toggle.active .hamburger-line:nth-child(2){ opacity:0;} .mobile-menu-toggle.active .hamburger-line:nth-child(3){ transform: rotate(45deg) translate(-5px,-6px);} 
+    .mobile-nav{ position:fixed; inset:0; background:rgba(15,23,42,.95); backdrop-filter:blur(20px); z-index:1001; padding-top:120px; opacity:0; visibility:hidden; transform:translateY(-100%); transition:all .4s cubic-bezier(.4,0,.2,1);} 
+    .mobile-nav.active{ opacity:1; visibility:visible; transform:translateY(0);} .mobile-nav-close{ position:absolute; top:60px; right:20px; background:none; border:none; color:#fff; font-size:2rem; cursor:pointer; padding:10px; border-radius:50%; width:50px; height:50px; display:flex; align-items:center; justify-content:center; transition:.3s; z-index:1002;} .mobile-nav-close:hover{ background:rgba(255,255,255,.1); transform:rotate(90deg);} 
+    .mobile-nav-links{ display:flex; flex-direction:column; align-items:center; gap:30px; list-style:none; padding:0 20px;} .mobile-nav-links li{ opacity:0; transform:translateY(-30px); transition:all .4s ease; }
+
+    /* Header */
+    .header { min-height: 70vh; display:flex; align-items:center; justify-content:center; padding: 170px 20px 40px; position:relative; }
+    .hero-title{ font-size: clamp(2.5rem, 7vw, 6rem); font-weight:900; line-height:.95; margin-bottom:10px; background: linear-gradient(135deg, #ffffff 0%, #2563eb 50%, #0ea5e9 100%); background-clip:text; -webkit-background-clip:text; color:transparent; -webkit-text-fill-color:transparent; }
+    .hero-subtitle{ color: rgba(255,255,255,.8); font-size: clamp(1rem, 2.5vw, 1.25rem); }
+
+    /* Card */
+    .glass-card{ background: var(--glass-bg); backdrop-filter: blur(20px); border:1px solid var(--glass-border); border-radius: 24px; }
+    .input{ width:100%; padding:14px 16px; border-radius:14px; background: rgba(255,255,255,.06); border:1px solid rgba(255,255,255,.15); color:#fff; outline:none; transition: border .2s, box-shadow .2s; }
+    .input:focus{ border-color: rgba(14,165,233,.6); box-shadow: 0 0 0 4px rgba(14,165,233,.15); }
+    .label{ display:block; margin-bottom:8px; font-weight:600; color: rgba(255,255,255,.9); }
+    .helper{ font-size:.85rem; color: rgba(255,255,255,.65); }
+    .btn{ padding:14px 28px; border-radius: 9999px; font-weight:700; display:inline-flex; align-items:center; justify-content:center; gap:10px; }
+    .btn-primary{ background: var(--accent-gradient); color:#fff; box-shadow: 0 15px 35px rgba(14,165,233,.3); }
+    .btn-primary:hover{ transform: translateY(-2px); box-shadow: 0 20px 45px rgba(14,165,233,.4); }
+
+    /* Anim */
+    @keyframes slideUp { from{opacity:0; transform: translateY(50px);} to{opacity:1; transform: translateY(0);} }
+
+    /* Responsive */
+    @media (max-width: 1024px){ .two-col{ grid-template-columns: 1fr; } }
+    @media (max-width: 768px){ .navbar{ padding: 15px 20px; top: 35px;} .mobile-menu-toggle{ display:flex;} }
+    @media (max-width: 480px){ .navbar{ padding: 12px 15px;} }
+
+        /* ==== THEMED FOOTER (matches your site) ==== */
+    .site-footer{
+      background: var(--dark-gradient);
+      color: rgba(255,255,255,0.9);
+      padding: 64px 40px 32px;
+      position: relative;
+      border-top: 0px solid var(--glass-border);
+    }
+
+    /* subtle accent glow + top accent bar */
+    .site-footer::before{
+      content:"";
+      position:absolute; inset:0;
+      background:
+        radial-gradient(900px 300px at 6% 0%, rgba(14,165,233,.08), transparent 60%),
+        radial-gradient(900px 300px at 94% 100%, rgba(37,99,235,.08), transparent 60%);
+      pointer-events:none;
+    }
+    .site-footer::after{
+      content:""; position:absolute; top:0; left:0; right:0; height:3px;
+      background: var(--accent-gradient);
+    }
+
+    /* layout: 3 columns (brand/social, contact, upcoming) */
+    .footer-container{
+      max-width:1400px; margin:0 auto;
+      display:grid; grid-template-columns:2fr 1fr 1fr;
+      gap:48px; align-items:start;
+    }
+
+    /* brand title in your accent gradient */
+    .footer-logo{
+      margin:0 0 20px;
+      font-size:clamp(2rem,4.5vw,3.25rem);
+      font-weight:900;
+      background: var(--accent-gradient);
+      -webkit-background-clip:text; background-clip:text;
+      color:transparent; -webkit-text-fill-color:transparent;
+    }
+
+    .footer-social{ display:flex; gap:28px; margin:16px 0 24px; }
+    .footer-social a img{
+      width:22px; height:22px; filter:brightness(0) invert(1);
+      opacity:.9; transition:opacity .2s, transform .2s;
+    }
+    .footer-social a:hover img{ opacity:1; transform:translateY(-2px); }
+
+    .footer-desc{ max-width:720px; line-height:1.75; color:rgba(255,255,255,.8); }
+
+    .footer-title{
+      color: rgba(255,255,255,.75);
+      text-transform: uppercase; letter-spacing: 1px;
+      font-weight: 700; margin:0 0 16px; font-size:1.1rem;
+    }
+
+    .footer-list{ list-style:none; margin:0; padding:0; }
+    .footer-list li{ margin:8px 0; }
+
+    .footer-link{
+      color:#fff; text-decoration: underline;
+      text-underline-offset: 3px;
+      text-decoration-color: rgba(14,165,233,.5);
+      transition: text-decoration-color .2s;
+    }
+    .footer-link:hover{ text-decoration-color: #0ea5e9; }
+
+    .footer-bottom{
+      border-top:1px solid var(--glass-border);
+      margin-top:32px; padding-top:20px;
+      color:rgba(255,255,255,.65);
+    }
+
+    /* responsive */
+    @media (max-width:1024px){ .footer-container{ grid-template-columns:1fr 1fr; } }
+    @media (max-width:640px){ .footer-container{ grid-template-columns:1fr; } }
+
+  </style>
+</head>
+<body>
+  <!-- Background layers -->
+  <div class="grid-bg"></div>
+  <div class="orb orb-1" aria-hidden="true"></div>
+  <div class="orb orb-2" aria-hidden="true"></div>
+  <div class="orb orb-3" aria-hidden="true"></div>
+
+  <!-- Powered by (shimmer) -->
+  <div class="powered-by-bar fixed top-0 left-0 right-0 text-center py-2 text-[0.85rem] font-medium tracking-wide z-[1001]">
+    Powered by University of Technology Sydney
+  </div>
+
+  <!-- Navigation -->
+  <nav class="navbar" aria-label="Main">
+    <div class="nav-container">
+      <div class="logo">UTS SW</div>
+      <ul class="nav-links">
+        <li><a href="index.html" class="nav-link">Home</a></li>
+        <li><a href="#speakers" class="nav-link">Speakers</a></li>
+        <li><a href="index.html#schedule-section" class="nav-link">Events</a></li>
+        <li><a href="index.html#sponsors-page" class="nav-link">Sponsors</a></li>
+        <li><a href="contact-us.html" class="nav-link active">Contact Us</a></li>
+        <li><a href="organisers.html" class="nav-link">Organisers</a></li>
+      </ul>
+      <a href="https://humanitix.com" class="nav-cta">Register Now</a>
+      <div class="mobile-menu-toggle" onclick="toggleMobileMenu()" role="button" aria-label="Open menu" aria-expanded="false">
+        <div class="hamburger-line"></div>
+        <div class="hamburger-line"></div>
+        <div class="hamburger-line"></div>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Mobile Nav -->
+  <div class="mobile-nav" id="mobileNav" aria-hidden="true">
+    <button class="mobile-nav-close" onclick="closeMobileMenu()" aria-label="Close menu">×</button>
+    <ul class="mobile-nav-links">
+      <li><a href="index.html" class="nav-link" onclick="closeMobileMenu()">Home</a></li>
+      <li><a href="index.html#speakers" class="nav-link" onclick="closeMobileMenu()">Speakers</a></li>
+      <li><a href="index.html#schedule-section" class="nav-link" onclick="closeMobileMenu()">Events</a></li>
+      <li><a href="index.html#sponsors-page" class="nav-link" onclick="closeMobileMenu()">Sponsors</a></li>
+      <li><a href="contact-us.html" class="nav-link active" onclick="closeMobileMenu()">Contact Us</a></li>
+      <li><a href="organisers.html" class="nav-link" onclick="closeMobileMenu()">Organisers</a></li>
+      <li><a href="login.html" class="nav-cta" onclick="closeMobileMenu()">Register Now</a></li>
+    </ul>
+  </div>
+
+  <!-- Header -->
+  <header class="header">
+    <div class="text-center max-w-3xl mx-auto px-6 animate-[slideUp_1s_ease-out_forwards]">
+      <h1 class="hero-title">Get in Touch</h1>
+      <p class="hero-subtitle">Questions about the UTS Software Week 2025? Send us a message and we’ll get back to you.</p>
+    </div>
+  </header>
+
+  <!-- Contact Section -->
+  <main class="relative z-10 pb-24 px-6">
+    <section class="max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-10">
+      <!-- Info Column -->
+      <aside class="glass-card p-8 lg:p-10">
+        <h2 class="text-2xl font-extrabold mb-3 bg-clip-text text-transparent" style="background: var(--accent-gradient); background-clip: text; -webkit-background-clip: text;">Event Details</h2>
+        <p class="text-white/80">University of Technology Sydney<br/>Ultimo NSW 2007, Australia</p>
+
+        <div class="mt-6 space-y-3 text-white/85">
+          <p>📧 <a class="underline decoration-white/30 hover:decoration-white" href="mailto:softwareweek.contact@gmail.com">softwareweek.contact@gmail.com</a></p>
+          <p>📞 +61 (02) 9514 2000</p>
+          <p>🕒 Mon–Fri, 10:00–16:00 AEST</p>
+        </div>
+
+        <div class="mt-8 grid sm:grid-cols-2 gap-4">
+          <div class="glass-card p-4 text-center">
+            <div class="text-3xl font-black bg-clip-text text-transparent" style="background: var(--accent-gradient); background-clip: text; -webkit-background-clip: text;">24-28</div>
+            <div class="text-white/70 text-sm">November 2025</div>
+          </div>
+          <div class="glass-card p-4 text-center">
+            <div class="text-3xl font-black bg-clip-text text-transparent" style="background: var(--accent-gradient); background-clip: text; -webkit-background-clip: text;">UTS</div>
+            <div class="text-white/70 text-sm">Ultimo Campus</div>
+          </div>
+        </div>
+
+        <p class="mt-8 text-sm text-white/60">Tip: include as much detail as possible (topic, team size, deadlines). We usually reply within 2 business days.</p>
+      </aside>
+
+      <!-- Form Column -->
+      <section class="glass-card p-6 sm:p-8 lg:p-10">
+        <form id="contactForm" novalidate>
+          <!-- Honeypot -->
+          <input type="text" id="company" name="company" class="hidden" tabindex="-1" autocomplete="off" aria-hidden="true" />
+
+          <div class="grid md:grid-cols-2 gap-5">
+            <div>
+              <label class="label" for="name">Full Name</label>
+              <input class="input" id="name" name="name" type="text" placeholder="Name" required />
+            </div>
+            <div>
+              <label class="label" for="email">Email</label>
+              <input class="input" id="email" name="email" type="email" placeholder="you@example.com" required />
+            </div>
+          </div>
+
+          <div class="grid md:grid-cols-2 gap-5 mt-5">
+            <div>
+              <label class="label" for="topic">Topic</label>
+              <select class="input" id="topic" name="topic" required>
+                <option value="" disabled selected>Select a topic…</option>
+                <option class="text-black">General</option>
+                <option class="text-black">Registration</option>
+                <option class="text-black">Sponsorship</option>
+                <option class="text-black">Speaking</option>
+                <option class="text-black">Media</option>
+                <option class="text-black">Other</option>
+              </select>
+            </div>
+            <div>
+              <label class="label" for="org">Organisation (optional)</label>
+              <input class="input" id="org" name="org" type="text" placeholder="Company / Society" />
+            </div>
+          </div>
+
+          <div class="mt-5">
+            <label class="label" for="message">Message</label>
+            <textarea class="input min-h-[140px]" id="message" name="message" placeholder="Tell us how we can help…" required></textarea>
+            <p class="helper mt-2">Please keep it under 2000 characters.</p>
+          </div>
+
+          <div class="mt-5 flex items-start gap-3">
+            <input id="consent" name="consent" type="checkbox" required class="mt-1 h-5 w-5 rounded border border-white/30 bg-white/10" />
+            <label for="consent" class="text-sm text-white/80">I agree to be contacted about my enquiry</label>
+          </div>
+
+          <div class="mt-7 flex flex-wrap items-center gap-4">
+            <button id="submitBtn" class="btn btn-primary" type="submit">
+              <span id="btnText">Send Message</span>
+              <svg id="btnSpinner" class="hidden animate-spin" width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M12 2a10 10 0 1 0 10 10" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+            </button>
+            <p class="text-sm text-white/60">We’ll email a confirmation copy to you.</p>
+          </div>
+
+          <!-- Status -->
+          <div id="formStatus" class="mt-6 hidden p-4 rounded-xl" role="status" aria-live="polite"></div>
+        </form>
+      </section>
+    </section>
+  </main>
+
+  <footer class="site-footer" role="contentinfo" aria-label="Footer">
+    <div class="footer-container">
+      <!-- Left: brand, socials, blurb -->
+      <section>
+        <h3 class="footer-logo">UTS SWC 2025</h3>
+
+        <p class="footer-desc">
+          UTS Software Week is an event organised by several universities aiming to
+          enable industry involvement in university education. We intend to showcase various
+          projects and the latest research formulated by students in order to bridge the gap
+          between university research and industry needs. This week will provide opportunities
+          to network with major industries to elevate businesses and personal growth.
+        </p>
+      </section>
+
+      <!-- Contact -->
+      <section>
+        <h4 class="footer-title">Contact us</h4>
+        <ul class="footer-list">
+          <li>University of Technology Sydney</li>
+          <li>15 Broadway, Ultimo NSW 2007</li>
+          <li>softwareweek.contact@gmail.com</li>
+          <li>+61 (02) 9514 2000</li>
+          <br>
+          <li><a href="contact-us.html" class="nav-cta">Contact Us</a></li>
+        </ul>
+      </section>
+
+      <!-- Upcoming -->
+      <section>
+        <h4 class="footer-title">Upcoming events</h4>
+        <strong>UTS SW — Sydney</strong>
+        <ul class="footer-list" style="margin-top:8px;">
+          <li>24–28 Nov 2025</li>
+          <li><a class="footer-link" target="_blank" href="https://www.google.com/maps/place/University+of+Technology+Sydney/data=!4m2!3m1!1s0x0:0x16e224b2bd8fa957?sa=X&ved=1t:2428&ictx=111">UTS Ultimo</a></li>
+        </ul>
+      </section>
+    </div>
+
+    <div class="footer-bottom">
+      © 2025 UTS Software Week — All rights reserved.
+    </div>
+  </footer>
+
+  <script>
+    /* =========================================
+       Email sending strategy
+       1) Preferred: POST to a forms endpoint (e.g., Formspree/Getform/your API)
+          - Replace FORMSPREE_ENDPOINT with your real endpoint
+       2) Fallback: mailto: opens the user's email client prefilled
+    ========================================= */
+    const FORMSPREE_ENDPOINT = "https://formspree.io/f/xwpnyqzl"; // e.g. https://formspree.io/f/abcdwxyz
+    const MAILTO_TO_ADDRESS  = "adi.patnaik@student.uts.edu.au"; // Fallback recipient
+
+    /* ===== Mobile menu ===== */
+    function toggleMobileMenu(){
+      const toggle = document.querySelector('.mobile-menu-toggle');
+      const mobileNav = document.getElementById('mobileNav');
+      toggle.classList.toggle('active');
+      const isOpen = mobileNav.classList.toggle('active');
+      toggle.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+      mobileNav.setAttribute('aria-hidden', isOpen ? 'false' : 'true');
+      if (isOpen){
+        document.body.style.overflow = 'hidden';
+        document.querySelectorAll('.mobile-nav-links li').forEach((li, idx)=>{
+          li.style.transitionDelay = (0.1 * (idx + 1)) + 's';
+          li.style.opacity = 1; li.style.transform = 'translateY(0)';
+        });
+      } else {
+        document.body.style.overflow = '';
+        document.querySelectorAll('.mobile-nav-links li').forEach(li=>{ li.style.transitionDelay=''; li.style.opacity=''; li.style.transform=''; });
+      }
+    }
+    function closeMobileMenu(){
+      const toggle = document.querySelector('.mobile-menu-toggle');
+      const mobileNav = document.getElementById('mobileNav');
+      toggle.classList.remove('active');
+      mobileNav.classList.remove('active');
+      toggle.setAttribute('aria-expanded','false');
+      mobileNav.setAttribute('aria-hidden','true');
+      document.body.style.overflow = '';
+      document.querySelectorAll('.mobile-nav-links li').forEach(li=>{ li.style.transitionDelay=''; li.style.opacity=''; li.style.transform=''; });
+    }
+    window.addEventListener('resize', ()=>{ if (window.innerWidth > 768) closeMobileMenu(); });
+
+    /* ===== Parallax Orbs (reduced motion aware) ===== */
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (!prefersReducedMotion){
+      window.addEventListener('mousemove', (e)=>{
+        const orbs = document.querySelectorAll('.orb');
+        const x = e.clientX / window.innerWidth; const y = e.clientY / window.innerHeight;
+        orbs.forEach((orb, i)=>{
+          const speed = (i + 1) * 0.02; const xPos = (x - 0.5) * speed * 100; const yPos = (y - 0.5) * speed * 100;
+          orb.style.transform = `translate(${xPos}px, ${yPos}px)`;
+        });
+      });
+    }
+
+    /* ===== Form Handling ===== */
+    const form = document.getElementById('contactForm');
+    const statusEl = document.getElementById('formStatus');
+    const submitBtn = document.getElementById('submitBtn');
+    const btnText = document.getElementById('btnText');
+    const btnSpinner = document.getElementById('btnSpinner');
+
+    form.addEventListener('submit', async (e)=>{
+      e.preventDefault();
+      // Honeypot check
+      if (document.getElementById('company').value.trim() !== '') return;
+
+      // Basic validity
+      if (!form.checkValidity()){
+        form.reportValidity();
+        return;
+      }
+
+      setLoading(true);
+      clearStatus();
+
+      const payload = {
+        name: document.getElementById('name').value.trim(),
+        email: document.getElementById('email').value.trim(),
+        topic: document.getElementById('topic').value,
+        org: document.getElementById('org').value.trim(),
+        message: document.getElementById('message').value.trim(),
+        consent: document.getElementById('consent').checked
+      };
+
+      // Limit message size client-side
+      if (payload.message.length > 2000){
+        setStatus('Your message is a bit long. Please keep it under 2000 characters.', 'error');
+        setLoading(false);
+        return;
+      }
+
+      try {
+        if (FORMSPREE_ENDPOINT && !/REPLACE_ME$/.test(FORMSPREE_ENDPOINT)){
+          const res = await fetch(FORMSPREE_ENDPOINT, {
+            method: 'POST',
+            headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' },
+            body: JSON.stringify(payload)
+          });
+
+          if (res.ok){
+            form.reset();
+            setStatus('Thanks! Your message has been sent. We\'ll reply to your email shortly.', 'success');
+          } else {
+            const data = await res.json().catch(()=>({}));
+            const msg = data && data.errors ? data.errors.map(e=>e.message).join(' ') : 'Something went wrong.';
+            setStatus('Could not send via form service. ' + msg + ' Using email client instead…', 'warning');
+            sendViaMailto(payload);
+          }
+        } else {
+          // Fallback: Mailto
+          sendViaMailto(payload);
+        }
+      } catch (err){
+        setStatus('Network issue. Using your email client instead…', 'warning');
+        sendViaMailto(payload);
+      } finally {
+        setLoading(false);
+      }
+    });
+
+    function sendViaMailto({name, email, topic, org, message}){
+      const subject = `[UTS SWC Contact] ${topic || 'General'} — ${name}`;
+      const body = `Name: ${name}%0D%0AEmail: ${email}%0D%0AOrganisation: ${org || '-'}%0D%0ATopic: ${topic || '-'}%0D%0A%0D%0AMessage:%0D%0A${encodeURIComponent(message)}`;
+      window.location.href = `mailto:${MAILTO_TO_ADDRESS}?subject=${encodeURIComponent(subject)}&body=${body}`;
+      setStatus('Opening your email client… If nothing opens, please email us at softwareweek.contact@gmail.com.', 'info');
+    }
+
+    function setLoading(loading){
+      submitBtn.disabled = loading;
+      if (loading){ btnText.textContent = 'Sending…'; btnSpinner.classList.remove('hidden'); }
+      else { btnText.textContent = 'Send Message'; btnSpinner.classList.add('hidden'); }
+    }
+
+    function clearStatus(){ statusEl.className = 'mt-6 hidden p-4 rounded-xl'; statusEl.textContent = ''; }
+
+    function setStatus(text, kind='success'){
+      const base = 'mt-6 p-4 rounded-xl';
+      const kinds = {
+        success: base + ' bg-emerald-600/20 border border-emerald-400/40 text-emerald-200',
+        error:   base + ' bg-rose-600/20 border border-rose-400/40 text-rose-200',
+        warning: base + ' bg-amber-600/20 border border-amber-400/40 text-amber-100',
+        info:    base + ' bg-sky-600/20 border border-sky-400/40 text-sky-100'
+      };
+      statusEl.className = kinds[kind] || kinds.success;
+      statusEl.textContent = text;
+      statusEl.classList.remove('hidden');
+    }
+  </script>
+</body>
+</html>
