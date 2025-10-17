@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Contact Us • UTS SW 2025</title>
+  <title>ASEW 2025</title>
 
   <!-- Tailwind for utilities -->
   <script src="https://cdn.tailwindcss.com"></script>
@@ -186,16 +186,16 @@
   <!-- Navigation -->
   <nav class="navbar" aria-label="Main">
     <div class="nav-container">
-      <div class="logo">UTS SW</div>
+      <div class="logo">ASEW</div>
       <ul class="nav-links">
         <li><a href="index.html" class="nav-link">Home</a></li>
         <li><a href="#speakers" class="nav-link">Speakers</a></li>
         <li><a href="index.html#schedule-section" class="nav-link">Events</a></li>
-        <li><a href="index.html#sponsors-page" class="nav-link">Sponsors</a></li>
+        <li><a href="index.html#sponsors-page" class="nav-link">Partners</a></li>
         <li><a href="contact-us.html" class="nav-link active">Contact Us</a></li>
         <li><a href="organisers.html" class="nav-link">Organisers</a></li>
       </ul>
-      <a href="https://humanitix.com" class="nav-cta">Register Now</a>
+      <a href="https://events.humanitix.com/software-engineering-conference-2025" class="nav-cta">Register Now</a>
       <div class="mobile-menu-toggle" onclick="toggleMobileMenu()" role="button" aria-label="Open menu" aria-expanded="false">
         <div class="hamburger-line"></div>
         <div class="hamburger-line"></div>
@@ -211,7 +211,7 @@
       <li><a href="index.html" class="nav-link" onclick="closeMobileMenu()">Home</a></li>
       <li><a href="index.html#speakers" class="nav-link" onclick="closeMobileMenu()">Speakers</a></li>
       <li><a href="index.html#schedule-section" class="nav-link" onclick="closeMobileMenu()">Events</a></li>
-      <li><a href="index.html#sponsors-page" class="nav-link" onclick="closeMobileMenu()">Sponsors</a></li>
+      <li><a href="index.html#sponsors-page" class="nav-link" onclick="closeMobileMenu()">Partners</a></li>
       <li><a href="contact-us.html" class="nav-link active" onclick="closeMobileMenu()">Contact Us</a></li>
       <li><a href="organisers.html" class="nav-link" onclick="closeMobileMenu()">Organisers</a></li>
       <li><a href="login.html" class="nav-cta" onclick="closeMobileMenu()">Register Now</a></li>
@@ -222,7 +222,7 @@
   <header class="header">
     <div class="text-center max-w-3xl mx-auto px-6 animate-[slideUp_1s_ease-out_forwards]">
       <h1 class="hero-title">Get in Touch</h1>
-      <p class="hero-subtitle">Questions about the UTS Software Week 2025? Send us a message and we’ll get back to you.</p>
+      <p class="hero-subtitle">Questions about the Australian Software Engineering Week 2025? Send us a message and we’ll get back to you.</p>
     </div>
   </header>
 
@@ -235,9 +235,7 @@
         <p class="text-white/80">University of Technology Sydney<br/>Ultimo NSW 2007, Australia</p>
 
         <div class="mt-6 space-y-3 text-white/85">
-          <p>📧 <a class="underline decoration-white/30 hover:decoration-white" href="mailto:softwareweek.contact@gmail.com">softwareweek.contact@gmail.com</a></p>
-          <p>📞 +61 (02) 9514 2000</p>
-          <p>🕒 Mon–Fri, 10:00–16:00 AEST</p>
+          <p>📧 <a class="underline decoration-white/30 hover:decoration-white" href="mailto:ASEW2025@uts.edu.au">ASEW@uts.edu.au</a></p>
         </div>
 
         <div class="mt-8 grid sm:grid-cols-2 gap-4">
@@ -320,14 +318,13 @@
     <div class="footer-container">
       <!-- Left: brand, socials, blurb -->
       <section>
-        <h3 class="footer-logo">UTS SWC 2025</h3>
+        <h3 class="footer-logo">ASEW 2025</h3>
 
         <p class="footer-desc">
-          UTS Software Week is an event organised by several universities aiming to
-          enable industry involvement in university education. We intend to showcase various
-          projects and the latest research formulated by students in order to bridge the gap
-          between university research and industry needs. This week will provide opportunities
-          to network with major industries to elevate businesses and personal growth.
+          The Australian Software Engineering Week aims at providing a forum to software engineering researchers, students and
+          practitioners to share, network and learn from each other through the presentation of their research and innovation.
+          This week will provide important insights into future directions and share practices which worked, and which did not
+          work including lessons learned and benefit realisation.
         </p>
       </section>
 
@@ -337,8 +334,7 @@
         <ul class="footer-list">
           <li>University of Technology Sydney</li>
           <li>15 Broadway, Ultimo NSW 2007</li>
-          <li>softwareweek.contact@gmail.com</li>
-          <li>+61 (02) 9514 2000</li>
+          <li>ASEW2025@uts.edu.au</li>
           <br>
           <li><a href="contact-us.html" class="nav-cta">Contact Us</a></li>
         </ul>
@@ -347,16 +343,16 @@
       <!-- Upcoming -->
       <section>
         <h4 class="footer-title">Upcoming events</h4>
-        <strong>UTS SW — Sydney</strong>
+        <strong>ASEW - Sydney</strong>
         <ul class="footer-list" style="margin-top:8px;">
-          <li>24 – 28 Nov 2025</li>
+          <li>24–28 Nov 2025</li>
           <li><a class="footer-link" target="_blank" href="https://www.google.com/maps/place/University+of+Technology+Sydney/data=!4m2!3m1!1s0x0:0x16e224b2bd8fa957?sa=X&ved=1t:2428&ictx=111">UTS Ultimo</a></li>
         </ul>
       </section>
     </div>
 
     <div class="footer-bottom">
-      © 2025 UTS Software Week — All rights reserved.
+      © 2025 Australian Software Engineering Week — All rights reserved.
     </div>
   </footer>
 
@@ -484,7 +480,7 @@
       const subject = `[UTS SWC Contact] ${topic || 'General'} — ${name}`;
       const body = `Name: ${name}%0D%0AEmail: ${email}%0D%0AOrganisation: ${org || '-'}%0D%0ATopic: ${topic || '-'}%0D%0A%0D%0AMessage:%0D%0A${encodeURIComponent(message)}`;
       window.location.href = `mailto:${MAILTO_TO_ADDRESS}?subject=${encodeURIComponent(subject)}&body=${body}`;
-      setStatus('Opening your email client… If nothing opens, please email us at softwareweek.contact@gmail.com.', 'info');
+      setStatus('Opening your email client… If nothing opens, please email us at ASEW2025@uts.edu.au', 'info');
     }
 
     function setLoading(loading){

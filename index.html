@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>UTS SW 2025</title>
+  <title>ASEW 2025</title>
 
   <!-- Tailwind (for simple utilities) -->
   <script src="https://cdn.tailwindcss.com"></script>
@@ -422,16 +422,15 @@
     .speaker-photo {
       width: 70%;
       max-width: 420px;
-      aspect-ratio: 1 / 1;      /* keeps it perfectly square */
-      border-radius: 50%;       /* makes it a circle */
-      object-fit: cover;        /* fills the circle without distortion */
+      aspect-ratio: 1 / 1;
+      border-radius: 50%;
+      object-fit: cover;
       box-shadow: 0 20px 50px rgba(0,0,0,.35);
       border: 2px solid rgba(255,255,255,.25);
       display:block;
       margin: 0 auto;
     }
 
-    /* Left info panel */
     .gallery-description{ padding-right:20px; }
     .gallery-description h2{
       font-size: clamp(2.25rem, 4.5vw, 3.5rem);
@@ -449,7 +448,6 @@
       color:rgba(255,255,255,0.75); line-height:1.7;
     }
 
-    /* Right: slides + dots (dots UNDER the slides) */
     .gallery-container{
       width:100%; display:flex; flex-direction:column; align-items:center;
     }
@@ -465,16 +463,13 @@
     .gallery-slide.active{ opacity:1; transform:translateX(0); }
     .gallery-slide.prev{ transform:translateX(-100%); }
 
-    /* Each slide uses the image from --photo */
     .gallery-slide::before{
       content: none;
     }
     .gallery-slide.active::before{ transform:scale(1); }
 
-    /* Dim overlay for readability (keep it subtle for speaker photos) */
     .gallery-overlay{ display:none; }
 
-    /* Arrows */
     .gallery-arrows{
       position:absolute; top:50%; transform:translateY(-50%);
       background:rgba(255,255,255,0.18); backdrop-filter:blur(10px);
@@ -487,7 +482,6 @@
     .gallery-prev{ left:18px; }
     .gallery-next{ right:18px; }
 
-    /* Dots under slides */
     .gallery-indicators{
       position:static; display:flex; justify-content:center; gap:10px; margin-top:14px; z-index:1;
     }
@@ -497,7 +491,6 @@
     }
     .gallery-dot.active{ background:#fff; transform:scale(1.2); }
 
-    /* Responsive */
     @media (max-width: 768px){
       .gallery-content-wrapper{ grid-template-columns:1fr; gap:28px; padding:0 20px; }
       .gallery-description{ padding-right:0; text-align:center; }
@@ -594,7 +587,6 @@
       border-top: 0px solid var(--glass-border);
     }
 
-    /* subtle accent glow + top accent bar */
     .site-footer::before{
       content:"";
       position:absolute; inset:0;
@@ -608,14 +600,12 @@
       background: var(--accent-gradient);
     }
 
-    /* layout: 3 columns (brand/social, contact, upcoming) */
     .footer-container{
       max-width:1400px; margin:0 auto;
       display:grid; grid-template-columns:2fr 1fr 1fr;
       gap:48px; align-items:start;
     }
 
-    /* brand title in your accent gradient */
     .footer-logo{
       margin:0 0 20px;
       font-size:clamp(2rem,4.5vw,3.25rem);
@@ -657,7 +647,6 @@
       color:rgba(255,255,255,.65);
     }
 
-    /* responsive */
     @media (max-width:1024px){ .footer-container{ grid-template-columns:1fr 1fr; } }
     @media (max-width:640px){ .footer-container{ grid-template-columns:1fr; } }
 
@@ -678,6 +667,11 @@
 
       .powered-by-bar, .navbar { left: 0; right: 0; width: 100%; }
     }
+
+    /* timetable */
+    .timetable { table-layout: fixed; width: 100%; }
+    .timetable th, .timetable td { vertical-align: top; }
+    .timetable .wrap { white-space: normal; overflow-wrap: anywhere; word-break: break-word; }
   </style>
 </head>
 
@@ -696,18 +690,18 @@
   <!-- Navigation -->
   <nav class="navbar">
     <div class="nav-container">
-      <div class="logo">UTS SW</div>
+      <div class="logo">ASEW</div>
 
       <ul class="nav-links">
         <li><a href="#" class="nav-link">Home</a></li>
         <li><a href="#speakers" class="nav-link">Speakers</a></li>
         <li><a href="#schedule-section" class="nav-link">Events</a></li>
-        <li><a href="#sponsors-page" class="nav-link">Sponsors</a></li>
+        <li><a href="#sponsors-page" class="nav-link">Partners</a></li>
         <li><a href="contact-us.html" class="nav-link">Contact Us</a></li>
         <li><a href="organisers.html" class="nav-link">Organisers</a></li>
       </ul>
 
-      <a href="https://humanitix.com" class="nav-cta">Register Now</a>
+      <a href="https://events.humanitix.com/software-engineering-conference-2025" class="nav-cta">Register Now</a>
 
       <!-- Hamburger -->
       <div class="mobile-menu-toggle" onclick="toggleMobileMenu()">
@@ -725,7 +719,7 @@
       <li><a href="#" class="nav-link" onclick="closeMobileMenu()">Home</a></li>
       <li><a href="#speakers" class="nav-link" onclick="closeMobileMenu()">Speakers</a></li>
       <li><a href="#schedule-section" class="nav-link" onclick="closeMobileMenu()">Events</a></li>
-      <li><a href="#sponsors-page" class="nav-link" onclick="closeMobileMenu()">Sponsors</a></li>
+      <li><a href="#sponsors-page" class="nav-link" onclick="closeMobileMenu()">Partners</a></li>
       <li><a href="contact-us.html" class="nav-link" onclick="closeMobileMenu()">Contact Us</a></li>
       <li><a href="organisers.html" class="nav-link" onclick="closeMobileMenu()">Organisers</a></li>
       <li><a href="login.html" class="nav-cta" onclick="closeMobileMenu()">Register Now</a></li>
@@ -735,19 +729,18 @@
   <!-- Header / Hero -->
   <header class="header">
     <div class="main-content">
-      <div class="event-badge">🚀 University of Technology Sydney's Software Week</div>
 
-      <h1 class="hero-title">UTS Software Week <br /> 2025</h1>
+      <h1 class="hero-title leading-[1.05] pb-[0.15em]">Australian Software Engineering Week</h1>
 
       <p class="hero-subtitle">Rethinking Software Engineering and Higher Education in the AI Era</p>
 
-      <p class="hero-subtitle text-sm">An event organised by several universities intending to showcase
+      <p class="hero-subtitle text-sm">An event organised by several organisations intending to showcase
       the latest research in software development and related school projects.</p>
 
       <div class="hero-date">Join Us · November 24–28, 2025</div>
 
       <div class="hero-buttons flex flex-wrap justify-center gap-5 mb-16">
-        <a href="https://humanitix.com/au" class="btn btn-primary" target="_blank">Secure Your Spot</a>
+        <a href="https://events.humanitix.com/software-engineering-conference-2025" class="btn btn-primary" target="_blank">Secure Your Spot</a>
       </div>
 
       <!-- Stats -->
@@ -769,37 +762,186 @@
       <!-- Features -->
       <div id="schedule-section" class="features-section">
         <h2 class="features-title">What To Expect</h2>
+        <!-- ===== Timetable ===== -->
+        <section id="timetable" class="mt-14">
 
-        <div class="features-grid vertical">
-
-          <div class="feature-card" style="--card-bg: url('https://media.licdn.com/dms/image/v2/D5612AQHDu73xHfqm0g/article-cover_image-shrink_600_2000/article-cover_image-shrink_600_2000/0/1705538078120?e=2147483647&v=beta&t=MW1wQ8xTvl8nyR7d73oqN3dutgrZw_hn-GRYecexeq0')">
-            <div class="feature-icon stat-label text-sm">Day 1</div>
-            <h3 class="feature-title">Foundation Frontiers 🧊</h3>
-            <p class="feature-desc">Explore the latest in AI, blockchain, cloud computing, and emerging technologies that shape our future.</p>
-            <a href="events.html#foundations-content" class="feature-button">Learn More</a>
+          <!-- Day filters -->
+          <div class="flex flex-wrap justify-center gap-2 mb-6">
+            <button data-day-filter="1"
+                    class="filter-btn px-4 py-2 rounded-full border border-white/20 bg-white/10 hover:bg-white/15 text-white text-sm font-semibold">
+              Day 1: Mon 24 Nov
+            </button>
+            <button data-day-filter="2"
+                    class="filter-btn px-4 py-2 rounded-full border border-white/20 bg-white/10 hover:bg-white/15 text-white text-sm font-semibold">
+              Day 2: Tue 25 Nov
+            </button>
+            <button data-day-filter="3"
+                    class="filter-btn px-4 py-2 rounded-full border border-white/20 bg-white/10 hover:bg-white/15 text-white text-sm font-semibold">
+              Day 3: Wed 26 Nov
+            </button>
+            <button data-day-filter="4"
+                    class="filter-btn px-4 py-2 rounded-full border border-white/20 bg-white/10 hover:bg-white/15 text-white text-sm font-semibold">
+              Day 4: Thur 28 Nov
+            </button>
           </div>
 
-          <div class="feature-card" style="--card-bg: url('https://tuck.dartmouth.edu/uploads/articles/paul-argenti-four-steps-to-a-perfect-presentation.jpg')">
-            <div class="feature-icon stat-label text-sm">Day 2</div>
-            <h3 class="feature-title">Practice and Education 🛠️</h3>
-            <p class="feature-desc">Deep-dive into real-world projects presented by fellow developers that demonstrate technical skills and collaborative work</p>
-            <a href="events.html#practice-content" class="feature-button">Learn More</a>
+          <h4 id="tt-day-title"
+            class="text-xl md:text-2xl font-extrabold text-center mb-4 bg-clip-text text-transparent"
+            style="background: var(--accent-gradient); -webkit-background-clip:text;">
+          Day 1 - Software
+          </h4>
+
+
+          <!-- Desktop: table -->
+          <div class="hidden md:block">
+            <table class="timetable w-full overflow-hidden rounded-2xl border border-[color:var(--glass-border)]"
+                  style="background: var(--glass-bg); backdrop-filter: blur(20px);">
+              <colgroup>
+                <col style="width:140px;">
+                <col style="width:140px;">
+                <col>
+                <col>
+              </colgroup>
+              <thead class="bg-white/10">
+                <tr class="text-left text-white/90">
+                  <th class="p-4">Date</th>
+                  <th class="p-4">Time</th>
+                  <th class="p-4">Topic</th>
+                  <th class="p-4">Speakers / Panel</th>
+                </tr>
+              </thead>
+              <tbody id="tt-desktop" class="divide-y divide-white/10">
+                <!-- Day 1 -->
+                <tr data-day="1" class="hover:bg-white/5">
+                  <td class="p-4">Mon 24 Nov</td> 
+                  <td class="p-4">02:00-02:15 PM</td>
+                  <td class="p-4 wrap">Conference Opening</td>
+                  <td class="p-4 wrap">Prof. Paul Kennedy</td>
+                </tr>
+                <tr data-day="1" class="hover:bg-white/5">
+                  <td class="p-4">Mon 24 Nov</td>
+                  <td class="p-4">02:15-03:00 PM</td>
+                  <td class="p-4 wrap">Opening Keynote - Software Engineering in the GenAI Era</td>
+                  <td class="p-4 wrap">Prof. Asif Gill</td>
+                </tr>
+                <tr data-day="1" class="hover:bg-white/5">
+                  <td class="p-4">Mon 24 Nov</td>
+                  <td class="p-4">03:00-06:00 PM</td>
+                  <td class="p-4 wrap">Software Solution Showcase (10 Student Projects)</td>
+                  <td class="p-4 wrap">Various Speakers</td>
+                </tr>
+
+                <!-- Day 2 -->
+                <tr data-day="2" class="hover:bg-white/5">
+                  <td class="p-4">Tue 25 Nov</td>
+                  <td class="p-4">04:00-05:00 PM</td>
+                  <td class="p-4 wrap">Keynote - Agentic Software Engineering</td>
+                  <td class="p-4 wrap">Dr. Liming Zhu</td>
+                </tr>
+                <tr data-day="2" class="hover:bg-white/5">
+                  <td class="p-4">Tue 25 Nov</td>
+                  <td class="p-4">05:00-07:00 PM</td>
+                  <td class="p-4 wrap">AWS Masterclass</td>
+                  <td class="p-4 wrap">AWS Mentors</td>
+                </tr>
+
+                <!-- Day 3 -->
+                <tr data-day="3" class="hover:bg-white/5">
+                  <td class="p-4">Wed 26 Nov</td>
+                  <td class="p-4">04:00-TBA PM</td>
+                  <td class="p-4 wrap">Keynote - AI Powered Software Innovation</td>
+                  <td class="p-4 wrap">Prof. Fethi Rabhi</td>
+                </tr>
+                <tr data-day="3" class="hover:bg-white/5">
+                  <td class="p-4">Wed 26 Nov</td>
+                  <td class="p-4">TBA-07:00 PM</td>
+                  <td class="p-4 wrap">Panel Discussion</td>
+                  <td class="p-4 wrap">Prof. Asif Gill, Prof. Fethi Rabhi, Prof. Ben Moir, Prof. Will Tulloch, Dr. Ben Walters, Prof. Aamir Cheema</td>
+                </tr>
+
+                <tr data-day="4" class="hover:bg-white/5">
+                  <td class="p-4">Thurs 27 Nov</td>
+                  <td class="p-4">04:00-06:00 PM</td>
+                  <td class="p-4 wrap">Microsoft Masterclass</td>
+                  <td class="p-4 wrap">Microsoft Mentors</td>
+                </tr>
+                <tr data-day="4" class="hover:bg-white/5">
+                  <td class="p-4">Thurs 27 Nov</td>
+                  <td class="p-4">06:00-06:45 PM</td>
+                  <td class="p-4 wrap">Closing Keynote - The Impact of AI on Software Engineering Education</td>
+                  <td class="p-4 wrap">Dr. Qinghua Lu</td>
+                </tr>
+                <tr data-day="4" class="hover:bg-white/5">
+                  <td class="p-4">Thurs 27 Nov</td>
+                  <td class="p-4">06:45-07:00 PM</td>
+                  <td class="p-4 wrap">Closing Remarks</td>
+                  <td class="p-4 wrap">Prof. Asif Gill</td>
+                </tr>
+              </tbody>
+            </table>
           </div>
 
-          <div class="feature-card" style="--card-bg: url('https://images.pexels.com/photos/1181263/pexels-photo-1181263.jpeg?auto=compress&cs=tinysrgb&w=1600&q=60')">
-            <div class="feature-icon stat-label text-xs">Day 1-3</div>
-            <h3 class="feature-title">Hackathon 🖥️</h3>
-            <p class="feature-desc">A 3 day event tasking participants to develop an innovative solution to solve a specific problem.</p>
-            <a href="events.html#hackathon-content" class="feature-button">Learn More</a>
-          </div>
+          <!-- Mobile: cards -->
+          <div id="tt-mobile" class="md:hidden space-y-3">
+            <!-- Day 1 -->
+            <div data-day="1" class="rounded-2xl border border-white/15 p-4" style="background: var(--glass-bg); backdrop-filter: blur(20px);">
+              <div class="text-white/70 text-sm">Mon 24 Nov • 02:00–02:15 PM</div>
+              <div class="font-semibold">Conference Opening</div>
+              <div class="text-white/80 text-sm">Prof. Paul Kennedy</div>
+            </div>
+            <div data-day="1" class="rounded-2xl border border-white/15 p-4" style="background: var(--glass-bg); backdrop-filter: blur(20px);">
+              <div class="text-white/70 text-sm">Mon 24 Nov • 02:15–03:00 PM</div>
+              <div class="font-semibold">Opening Keynote - Software Engineering in the GenAI Era</div>
+              <div class="text-white/80 text-sm">Prof. Asif Gill</div>
+            </div>
+            <div data-day="1" class="rounded-2xl border border-white/15 p-4" style="background: var(--glass-bg); backdrop-filter: blur(20px);">
+              <div class="text-white/70 text-sm">Mon 24 Nov • 03:00–06:00 PM</div>
+              <div class="font-semibold">Software Solution Showcase (10 Student Projects)</div>
+              <div class="text-white/80 text-sm">Various Speakers</div>
+            </div>
 
-          <div class="feature-card" style="--card-bg: url('https://knowledge.wharton.upenn.edu/wp-content/uploads/2023/11/11.22.23-marissa-king-nano-tool-networking-v2-GettyImages-1385170533.jpg')">
-            <div class="feature-icon stat-label text-sm">Day 3</div>
-            <h3 class="feature-title">Awards and Community 🏆</h3>
-            <p class="feature-desc">Connect with industry partners, and fellow developers to gain an insight on software in the real world</p>
-            <a href="events.html#awards-content" class="feature-button">Learn More</a>
+            <!-- Day 2 -->
+            <div data-day="2" class="rounded-2xl border border-white/15 p-4" style="background: var(--glass-bg); backdrop-filter: blur(20px);">
+              <div class="text-white/70 text-sm">Tue 25 Nov • 04:00–05:00 PM</div>
+              <div class="font-semibold">Keynote - Agentic Software Engineering</div>
+              <div class="text-white/80 text-sm">Dr. Liming Zhu</div>
+            </div>
+            <div data-day="2" class="rounded-2xl border border-white/15 p-4" style="background: var(--glass-bg); backdrop-filter: blur(20px);">
+              <div class="text-white/70 text-sm">Tue 25 Nov • 05:00–07:00 PM</div>
+              <div class="font-semibold">AWS Masterclass</div>
+              <div class="text-white/80 text-sm">AWS Mentors</div>
+            </div>
+
+            <!-- Day 3 -->
+            <div data-day="3" class="rounded-2xl border border-white/15 p-4" style="background: var(--glass-bg); backdrop-filter: blur(20px);">
+              <div class="text-white/70 text-sm">Wed 26 Nov • 04:00–TBA PM</div>
+              <div class="font-semibold">Keynote - AI Powered Software Innovation</div>
+              <div class="text-white/80 text-sm">Prof. Fethi Rabhi</div>
+            </div>
+            <div data-day="3" class="rounded-2xl border border-white/15 p-4" style="background: var(--glass-bg); backdrop-filter: blur(20px);">
+              <div class="text-white/70 text-sm">Wed 26 Nov • TBA–07:00 PM</div>
+              <div class="font-semibold">Panel Discussion</div>
+              <div class="text-white/80 text-sm">Prof. Asif Gill, Prof. Fethi Rabhi, Ben Moir, Will Tulloch, Ben Walters, Prof. Aamir Cheema</div>
+            </div>
+
+            <!-- Day 4 -->
+            <div data-day="4" class="rounded-2xl border border-white/15 p-4" style="background: var(--glass-bg); backdrop-filter: blur(20px);">
+              <div class="text-white/70 text-sm">Thurs 27 Nov • 04:00–06:00 PM</div>
+              <div class="font-semibold">Microsoft Masterclass</div>
+              <div class="text-white/80 text-sm">Microsoft Mentors</div>
+            </div>
+            <div data-day="4" class="rounded-2xl border border-white/15 p-4" style="background: var(--glass-bg); backdrop-filter: blur(20px);">
+              <div class="text-white/70 text-sm">Thurs 27 Nov • 06:00–06:45 PM</div>
+              <div class="font-semibold">Closing Keynote - The Impact of AI on Software Engineering Education</div>
+              <div class="text-white/80 text-sm">Dr. Qinghua Lu</div>
+            </div>
+            <div data-day="4" class="rounded-2xl border border-white/15 p-4" style="background: var(--glass-bg); backdrop-filter: blur(20px);">
+              <div class="text-white/70 text-sm">Thurs 27 Nov • 06:45–07:00 PM</div>
+              <div class="font-semibold">Closing Remarks</div>
+              <div class="text-white/80 text-sm">Prof. Asif Gill</div>
+            </div>
           </div>
-        </div>
+        </section>
       </div>
     </div>
   </header>
@@ -807,7 +949,6 @@
   <section class="gallery-section" id="speakers">
     <div class="gallery-content-wrapper">
 
-      <!-- LEFT: Speaker text that changes per slide -->
       <aside class="gallery-description">
         <h2>Keynote Speakers</h2>
         <div class="speaker-meta">
@@ -855,6 +996,27 @@
           <div class="gallery-overlay"></div>
         </div>
 
+        <div class="gallery-slide" data-slide="5">
+          <img class="speaker-photo"
+              src="https://media.licdn.com/dms/image/v2/D5603AQHCewxLxebP6g/profile-displayphoto-shrink_800_800/B56ZRt85iHGQAc-/0/1737011471218?e=1762387200&v=beta&t=J8dAMnZ1DjInQTs6JnmkKAnoqrLGYrVrKV8KWJDHbpQ"
+              alt="Ben Moir">
+          <div class="gallery-overlay"></div>
+        </div>
+
+        <div class="gallery-slide" data-slide="6">
+          <img class="speaker-photo"
+              src="https://cache.sessionize.com/image/4591-400o400o2-n2MFsBaVm5rs7VjkHSWopt.jpg"
+              alt="Will Tulloch">
+          <div class="gallery-overlay"></div>
+        </div>
+
+        <div class="gallery-slide" data-slide="7">
+          <img class="speaker-photo"
+              src="https://media.licdn.com/dms/image/v2/D5603AQFcqOxe0omZ7w/profile-displayphoto-shrink_800_800/profile-displayphoto-shrink_800_800/0/1672573141504?e=1762387200&v=beta&t=EAVO5se09SfANjiRrFl27vb91flJrWKrRsVNkBwC9sA"
+              alt="Aamir Cheema">
+          <div class="gallery-overlay"></div>
+        </div>
+
         <button class="gallery-arrows gallery-prev" onclick="changeSlide(-1)">‹</button>
         <button class="gallery-arrows gallery-next" onclick="changeSlide(1)">›</button>
       </div>
@@ -865,8 +1027,8 @@
   <section class="sponsors-section">
     <div class="container mx-auto max-w-[1000px] px-5">
       <div id="sponsors-page" class="sponsors-header">
-        <h2 class="sponsors-title">Trusted by Industry Leaders</h2>
-        <p class="sponsors-subtitle">Join the companies shaping the future of technology</p>
+        <h2 class="sponsors-title">Our Trusted Partners</h2>
+        <p class="sponsors-subtitle"></p>
       </div>
 
       <div class="sponsors-tier">
@@ -880,52 +1042,47 @@
       <div class="sponsors-grid partners">
           <div class="sponsor-card"><div class="sponsor-logo"><img src="https://universitiesaustralia.edu.au/wp-content/uploads/2019/06/UTS-300x300.png" style="max-height: 60px;" alt="UTS"/></div></div>
           <div class="sponsor-card"><div class="sponsor-logo"><img src="https://static.vecteezy.com/system/resources/previews/027/127/473/non_2x/microsoft-logo-microsoft-icon-transparent-free-png.png" style="max-height: 60px;" alt="microsoft"/></div></div>
-          <div class="sponsor-card"><div class="sponsor-logo"><img src="https://i.ibb.co/yFQDyym4/resetdata.png" style="max-height: 150px;" alt="resetdata"/></div></div>        
+          <div class="sponsor-card"><div class="sponsor-logo"><img src="https://progsoc.org/assets/img/progsoc-logo-1000.png?v=335588cd10" style="max-height: 60px;" alt="utsprogsoc"/></div></div>        
       </div>
     </div>
   </section>
 
   <footer class="site-footer" role="contentinfo" aria-label="Footer">
     <div class="footer-container">
-      <!-- Left: brand, socials, blurb -->
       <section>
-        <h3 class="footer-logo">UTS SW 2025</h3>
+        <h3 class="footer-logo">ASEW 2025</h3>
 
         <p class="footer-desc">
-          UTS Software Week is an event organised by several universities aiming to
-          enable industry involvement in university education. We intend to showcase various
-          projects and the latest research formulated by students in order to bridge the gap
-          between university research and industry needs. This week will provide opportunities
-          to network with major industries to elevate businesses and personal growth.
+          The Australian Software Engineering Week aims at providing a forum to software engineering researchers, students and
+          practitioners to share, network and learn from each other through the presentation of their research and innovation.
+          This week will provide important insights into future directions and share practices which worked, and which did not
+          work including lessons learned and benefit realisation.  
         </p>
       </section>
 
-      <!-- Contact -->
       <section>
         <h4 class="footer-title">Contact us</h4>
         <ul class="footer-list">
           <li>University of Technology Sydney</li>
           <li>15 Broadway, Ultimo NSW 2007</li>
-          <li>softwareweek.contact@gmail.com</li>
-          <li>+61 (02) 9514 2000</li>
+          <li>ASEW2025@uts.edu.au</li>
           <br>
           <li><a href="contact-us.html" class="nav-cta">Contact Us</a></li>
         </ul>
       </section>
 
-      <!-- Upcoming -->
       <section>
         <h4 class="footer-title">Upcoming events</h4>
-        <strong>UTS SW — Sydney</strong>
+        <strong>ASEW - Sydney</strong>
         <ul class="footer-list" style="margin-top:8px;">
-          <li>24 – 28 Nov 2025</li>
+          <li>24–28 Nov 2025</li>
           <li><a class="footer-link" target="_blank" href="https://www.google.com/maps/place/University+of+Technology+Sydney/data=!4m2!3m1!1s0x0:0x16e224b2bd8fa957?sa=X&ved=1t:2428&ictx=111">UTS Ultimo</a></li>
         </ul>
       </section>
     </div>
 
     <div class="footer-bottom">
-      © 2025 UTS Software Week — All rights reserved.
+      © 2025 Australian Software Engineering Week — All rights reserved.
     </div>
   </footer>
 
@@ -940,7 +1097,6 @@
 
       if (mobileNav.classList.contains('active')) {
         document.body.style.overflow = 'hidden';
-        // Stagger reveal
         document.querySelectorAll('.mobile-nav-links li').forEach((li, idx) => {
           li.style.transitionDelay = (0.1 * (idx + 1)) + 's';
           li.style.opacity = 1;
@@ -971,16 +1127,13 @@
       });
     }
 
-    // Close on resize > 768
     window.addEventListener('resize', () => {
       if (window.innerWidth > 768) closeMobileMenu();
     });
 
-    // Hook close button
     document.querySelector('.mobile-nav-close')?.addEventListener('click', closeMobileMenu);
 
     /* ========== Gallery ========== */
-      //Speaker data: update these with your real people
       const speakers = [
         {
           name: "Prof. Asif Gill",
@@ -1006,6 +1159,21 @@
           name: "Dr. Qinghua Lu",
           titleOrg: "Group Leader of the Software Systems Research Group · CSIRO",
           speciality: "Specializes in software engineering for AI and responsible AI; covering AI safety, software architecture, and blockchain-leading CSIRO’s Software Systems research."
+        },
+        {
+          name: "Ben Moir",
+          titleOrg: "Head of Innovation, Financial Services | Australia & New Zealand · AWS",
+          speciality: "Specializes in cloud architecture, serverless patterns, developer enablement, and practical GenAI/LLM integration across the AWS stack."
+        },
+        {
+          name: "Will Tulloch",
+          titleOrg: "Principal Software Engineer · Microsoft",
+          speciality: "Specializes in Azure solution design, secure and scalable cloud delivery, and real-world Copilot/M365 AI adoption using modern engineering practices."
+        },
+        {
+          name: "Prof. Aamir Cheema",
+          titleOrg: "Director of Education (Software Systems and Cybersecurity) · Monash university",
+          speciality: "Specializes in data management and AI, including spatial and graph databases, indexing, efficient query processing, and scalable data systems."
         }
       ];
 
@@ -1032,7 +1200,7 @@
         dots.forEach(dot => dot.classList.remove('active'));
         if (dots[n]) dots[n].classList.add('active');
 
-        updateSpeakerPanel(n);  // sync left text
+        updateSpeakerPanel(n);
       }
 
       function changeSlide(dir){
@@ -1047,9 +1215,7 @@
         showSlide(currentSlide);
       }
 
-      // init
       updateSpeakerPanel(0);
-      // Optional auto-advance
       setInterval(() => changeSlide(1), 10000);
 
     /* ========== Parallax Orbs ========== */
@@ -1065,6 +1231,49 @@
         orb.style.transform = `translate(${xPos}px, ${yPos}px)`;
       });
     });
+    // Timetable filters + day title
+    (function(){
+      const btns = document.querySelectorAll('#timetable .filter-btn');
+      const rows = document.querySelectorAll('#tt-desktop [data-day], #tt-mobile [data-day]');
+      const titleEl = document.getElementById('tt-day-title');
+
+      // Customize your day titles here
+      const DAY_TITLES = {
+        1: 'Software Engineering in the GenAI Era',
+        2: 'Agentic Software Engineering',
+        3: 'AI Powered Software Innovation',
+        4: 'The Impact of AI on Software Engineering Education'
+      };
+
+      function showDay(day){
+        // highlight active button
+        btns.forEach(b => b.classList.remove('ring-2','ring-white/40'));
+        const activeBtn = document.querySelector(`#timetable .filter-btn[data-day-filter="${day}"]`);
+        activeBtn?.classList.add('ring-2','ring-white/40');
+
+        // filter rows (desktop + mobile)
+        rows.forEach(r => {
+          Number(r.dataset.day) === Number(day) ? r.classList.remove('hidden')
+                                                : r.classList.add('hidden');
+        });
+
+        // update day title
+        if (titleEl){
+          titleEl.textContent = `Day ${day} - ${DAY_TITLES[day] || ''}`;
+        }
+      }
+
+      // wire up buttons
+      btns.forEach(btn => {
+        btn.addEventListener('click', () => {
+          const day = btn.dataset.dayFilter;
+          if (day) showDay(day);
+        });
+      });
+
+      // default to Day 1
+      showDay(1);
+    })();
   </script>
 </body>
 </html>
